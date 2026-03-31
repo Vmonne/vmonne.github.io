@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Victorine Monné – Archiviste | Gestion documentaire</title>
+  <meta name="description" content="Conservatrice d'archives et fondatrice de LIKOAM. Solutions documentaires pour les organisations à moyens limités en Afrique francophone."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy: #1B2E5E; --navy-dark: #142348; --navy-light: #EEF1F8;
+      --gold: #C9A84C; --white: #FFFFFF; --bg: #F4F6FA;
+      --text: #1A1A2E; --muted: #6B7280; --border: #E0E5F0;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; color: var(--text); background: var(--white); line-height: 1.65; font-size: 15px; }
+
+    /* NAV */
+    nav { display: flex; align-items: center; justify-content: space-between; padding: 18px 72px; background: var(--white); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; }
+    .nav-brand { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: var(--navy); text-decoration: none; }
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links a { text-decoration: none; color: var(--muted); font-size: 14px; font-weight: 500; transition: color .2s; position: relative; padding-bottom: 4px; }
+    .nav-links a:hover, .nav-links a.active { color: var(--navy); }
+    .nav-links a.active::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: var(--navy); border-radius: 2px; }
+
+    /* HERO */
+    .hero { background: var(--bg); display: grid; grid-template-columns: 1fr 1fr; align-items: center; min-height: 420px; overflow: hidden; }
+    .hero-left { padding: 72px 56px 72px 72px; }
+    .hero-title { font-family: 'Playfair Display', serif; font-size: clamp(28px, 3.5vw, 44px); font-weight: 700; color: var(--navy); line-height: 1.2; margin-bottom: 20px; }
+    .hero-sub { font-size: 14px; color: var(--muted); margin-bottom: 36px; letter-spacing: 0.02em; font-style: italic; }
+    .hero-sub span { margin: 0 8px; color: var(--border); }
+    .hero-btns { display: flex; gap: 14px; flex-wrap: wrap; }
+    .btn-navy { background: var(--navy); color: white; padding: 12px 28px; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 14px; display: inline-block; transition: background .2s, transform .1s; border: none; cursor: pointer; }
+    .btn-navy:hover { background: var(--navy-dark); transform: translateY(-1px); }
+    .btn-outline { background: transparent; color: var(--navy); padding: 10px 28px; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 14px; border: 2px solid var(--navy); display: inline-block; transition: background .2s, color .2s; }
+    .btn-outline:hover { background: var(--navy); color: white; }
+    .hero-right { height: 100%; min-height: 380px; display: flex; align-items: flex-end; justify-content: center; background: linear-gradient(160deg, #c9d8f0 0%, #1B2E5E22 100%); overflow: hidden; }
+    .hero-photo { height: 380px; width: auto; object-fit: cover; object-position: top center; border-radius: 12px 12px 0 0; }
+
+    /* SECTIONS */
+    .section { padding: 72px 72px; max-width: 1100px; margin: 0 auto; }
+    .section-bg-white { background: var(--white); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .section-bg-gray { background: var(--bg); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .section-title { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 700; color: var(--navy); text-align: center; margin-bottom: 44px; }
+    .section-title::before, .section-title::after { content: '——'; color: var(--border); margin: 0 10px; font-weight: 300; }
+
+    /* À PROPOS */
+    .about-inner { display: grid; grid-template-columns: auto 1fr; gap: 52px; align-items: center; max-width: 860px; margin: 0 auto; }
+    .about-photo { width: 160px; height: 160px; border-radius: 10px; object-fit: cover; object-position: top; border: 3px solid var(--border); flex-shrink: 0; }
+    .about-text p { font-size: 15px; color: var(--text); line-height: 1.8; margin-bottom: 10px; }
+    .about-text strong { font-weight: 700; color: var(--navy); }
+    .about-link { display: inline-block; margin-top: 16px; font-size: 14px; font-weight: 600; color: var(--navy); text-decoration: none; border-bottom: 2px solid var(--navy); padding-bottom: 2px; transition: opacity .2s; }
+    .about-link:hover { opacity: 0.7; }
+
+    /* CE QUE JE FAIS */
+    .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+    .service-card { background: var(--white); padding: 36px 24px; text-align: center; border-right: 1px solid var(--border); transition: background .2s; }
+    .service-card:last-child { border-right: none; }
+    .service-card:hover { background: var(--navy-light); }
+    .service-icon { font-size: 32px; color: var(--navy); margin-bottom: 16px; display: block; }
+    .service-label { font-size: 14px; font-weight: 700; color: var(--navy); display: block; margin-bottom: 10px; }
+    .service-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+    /* PROJETS */
+    .projects-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .project-card { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; display: flex; flex-direction: column; transition: box-shadow .2s, transform .2s; }
+    .project-card:hover { box-shadow: 0 8px 24px rgba(27,46,94,0.10); transform: translateY(-3px); }
+    .project-header { padding: 28px 28px 20px; display: flex; align-items: center; gap: 16px; }
+    .project-logo { width: 46px; height: 46px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; color: white; flex-shrink: 0; }
+    .project-logo.likoam { background: linear-gradient(135deg, #f59e0b, #d97706); }
+    .project-logo.libre { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
+    .project-name { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: var(--navy); }
+    .project-tagline { font-size: 13px; color: var(--muted); font-style: italic; margin-top: 2px; }
+    .project-body { padding: 0 28px 20px; font-size: 13px; color: var(--muted); line-height: 1.65; flex-grow: 1; }
+    .project-footer { padding: 18px 28px; background: var(--bg); border-top: 1px solid var(--border); display: flex; justify-content: center; }
+
+    /* ARTICLES */
+    .articles-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 36px; }
+    .article-card { background: var(--white); border-radius: 10px; overflow: hidden; border: 1px solid var(--border); transition: box-shadow .2s, transform .2s; display: flex; flex-direction: column; }
+    .article-card:hover { box-shadow: 0 6px 20px rgba(27,46,94,0.10); transform: translateY(-3px); }
+    .article-thumb { width: 100%; height: 130px; background: var(--navy-light); display: flex; align-items: center; justify-content: center; font-size: 32px; color: var(--navy); }
+    .article-thumb img { width: 100%; height: 130px; object-fit: cover; }
+    .article-body { padding: 18px 18px 22px; display: flex; flex-direction: column; flex-grow: 1; }
+    .article-tag { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; display: block; }
+    .article-title { font-size: 14px; font-weight: 700; color: var(--navy); margin-bottom: 8px; line-height: 1.4; }
+    .article-excerpt { font-size: 13px; color: var(--muted); line-height: 1.6; margin-bottom: 12px; flex-grow: 1; }
+    .article-link { font-size: 13px; color: var(--navy); font-weight: 600; text-decoration: none; }
+    .article-link:hover { text-decoration: underline; }
+    .articles-cta { text-align: center; }
+
+    /* CONTACT */
+    .contact-inner { max-width: 640px; margin: 0 auto; }
+    .contact-subtitle { text-align: center; color: var(--muted); font-size: 14px; margin-bottom: 36px; margin-top: -20px; }
+    .contact-links { display: flex; align-items: center; justify-content: center; gap: 28px; flex-wrap: wrap; margin-bottom: 36px; padding-bottom: 36px; border-bottom: 1px solid var(--border); }
+    .contact-item { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--text); font-size: 14px; font-weight: 500; transition: color .2s; }
+    .contact-item:hover { color: var(--navy); }
+    .contact-icon { width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+    .contact-icon.mail { background: #FEF3C7; color: #92400E; }
+    .contact-icon.linkedin { background: var(--navy-light); color: var(--navy); }
+    .contact-form { display: flex; flex-direction: column; gap: 16px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-group label { font-size: 13px; font-weight: 600; color: var(--navy); }
+    .form-group input, .form-group textarea { border: 1.5px solid var(--border); border-radius: 8px; padding: 11px 14px; font-family: 'Inter', sans-serif; font-size: 14px; color: var(--text); background: var(--white); outline: none; transition: border-color .2s; resize: vertical; }
+    .form-group input:focus, .form-group textarea:focus { border-color: var(--navy); box-shadow: 0 0 0 3px rgba(27,46,94,0.08); }
+    .form-submit { display: flex; justify-content: center; margin-top: 8px; }
+
+    /* FOOTER */
+    footer { background: var(--navy); color: rgba(255,255,255,0.6); padding: 24px 72px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+    .footer-copy { font-size: 13px; font-style: italic; }
+    .footer-copy strong { color: white; font-style: normal; }
+    .footer-social { display: flex; gap: 10px; }
+    .social-btn { width: 34px; height: 34px; border-radius: 50%; background: rgba(255,255,255,0.12); display: flex; align-items: center; justify-content: center; text-decoration: none; color: white; font-size: 14px; transition: background .2s; }
+    .social-btn:hover { background: rgba(255,255,255,0.25); }
+
+    /* RESPONSIVE */
+    @media (max-width: 860px) {
+      nav { padding: 16px 24px; }
+      .nav-links { display: none; }
+      .hero { grid-template-columns: 1fr; }
+      .hero-right { min-height: 260px; }
+      .hero-left { padding: 48px 24px; }
+      .section { padding: 48px 24px; }
+      .services-grid { grid-template-columns: 1fr; }
+      .service-card { border-right: none; border-bottom: 1px solid var(--border); }
+      .projects-grid, .articles-grid { grid-template-columns: 1fr; }
+      .about-inner { grid-template-columns: 1fr; text-align: center; justify-items: center; }
+      .form-row { grid-template-columns: 1fr; }
+      footer { flex-direction: column; text-align: center; padding: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVIGATION -->
+<nav>
+  <a href="#" class="nav-brand">Victorine Monné</a>
+  <ul class="nav-links">
+    <li><a href="#" class="active">Accueil</a></li>
+    <li><a href="https://victorinemonne.com/blog">Blog</a></li>
+    <li><a href="#projets">Projets</a></li>
+    <li><a href="#apropos">À propos</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- 1. HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <h1 class="hero-title">Structurer la mémoire,<br>valoriser l'information</h1>
+    <p class="hero-sub">Archiviste <span>|</span> Gestion documentaire <span>|</span> Transformation numérique</p>
+    <div class="hero-btns">
+      <a href="https://victorinemonne.com/blog" class="btn-navy"><i class="fa-solid fa-book-open"></i> &nbsp;Lire le Blog</a>
+      <a href="#projets" class="btn-outline"><i class="fa-solid fa-rocket"></i> &nbsp;Voir mes projets</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <img class="hero-photo"
+      src="https://victorinemonne.com/wp-content/uploads/2025/01/me-3-e1736167753128.jpg"
+      alt="Victorine Monné"
+      onerror="this.style.display='none'"
+    />
+  </div>
+</section>
+
+<!-- 2. À PROPOS -->
+<section class="section-bg-white" id="apropos">
+  <div class="section">
+    <div class="about-inner">
+      <img class="about-photo"
+        src="https://victorinemonne.com/wp-content/uploads/2025/01/me-3-e1736167753128.jpg"
+        alt="Victorine Monné"
+        onerror="this.style.display='none'"
+      />
+      <div class="about-text">
+        <h2 class="section-title">À Propos de Moi</h2>
+        <p>Conservatrice d'archives au <strong>Ministère de la Culture et de la Francophonie de Côte d'Ivoire</strong>, avec plus de huit ans d'expérience.</p>
+        <p>Fondatrice de <strong>LIKOAM</strong>, une solution de gestion documentaire conçue pour les organisations à moyens limités en Afrique francophone.</p>
+        <p>Présentatrice au <strong>DPC Workflow Webinar 2026</strong> devant plus de 80 participants internationaux.</p>
+        <a href="https://victorinemonne.com/a-propos" class="about-link">En savoir plus →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3. CE QUE JE FAIS -->
+<section class="section-bg-gray">
+  <div class="section">
+    <h2 class="section-title">Ce que je fais</h2>
+    <div class="services-grid">
+      <div class="service-card">
+        <span class="service-icon"><i class="fa-solid fa-box-archive"></i></span>
+        <span class="service-label">Gestion des Archives</span>
+        <span class="service-desc">Mise en place de systèmes d'archivage adaptés aux réalités des organisations africaines.</span>
+      </div>
+      <div class="service-card">
+        <span class="service-icon"><i class="fa-solid fa-laptop-file"></i></span>
+        <span class="service-label">Archivage Numérique</span>
+        <span class="service-desc">Numérisation, classement et conservation des documents dans des outils accessibles.</span>
+      </div>
+      <div class="service-card">
+        <span class="service-icon"><i class="fa-solid fa-diagram-project"></i></span>
+        <span class="service-label">Organisation de l'Information</span>
+        <span class="service-desc">Structuration des flux documentaires pour gagner en efficacité et en traçabilité.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4. MES PROJETS -->
+<section class="section-bg-white" id="projets">
+  <div class="section">
+    <h2 class="section-title">Mes Projets</h2>
+    <div class="projects-grid">
+      <div class="project-card">
+        <div class="project-header">
+          <div class="project-logo likoam"><i class="fa-solid fa-folder-open"></i></div>
+          <div>
+            <div class="project-name">LIKOAM</div>
+            <div class="project-tagline">Solution documentaire innovante</div>
+          </div>
+        </div>
+        <div class="project-body">Application web de gestion des archives courantes et intermédiaires, conçue pour les PME et organisations à petit budget en Afrique francophone.</div>
+        <div class="project-footer"><a href="https://likoam.com" target="_blank" class="btn-navy">Découvrir</a></div>
+      </div>
+      <div class="project-card">
+        <div class="project-header">
+          <div class="project-logo libre"><i class="fa-solid fa-toolbox"></i></div>
+          <div>
+            <div class="project-name">Libre Outils</div>
+            <div class="project-tagline">Outils numériques accessibles</div>
+          </div>
+        </div>
+        <div class="project-body">Suite d'outils HTML autonomes et hors-ligne pour les professionnels et institutions francophones d'Afrique.</div>
+        <div class="project-footer"><a href="#" class="btn-navy">Découvrir</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 5. DERNIERS ARTICLES -->
+<section class="section-bg-gray" id="blog">
+  <div class="section">
+    <h2 class="section-title">Derniers Articles</h2>
+    <div class="articles-grid">
+      <div class="article-card">
+        <div class="article-thumb"><i class="fa-solid fa-file-lines"></i></div>
+        <div class="article-body">
+          <span class="article-tag">Archives</span>
+          <h3 class="article-title">Optimiser la gestion documentaire</h3>
+          <p class="article-excerpt">Des pratiques concrètes pour optimiser votre système documentaire et gagner en efficacité.</p>
+          <a href="https://victorinemonne.com/blog" class="article-link">Lire plus →</a>
+        </div>
+      </div>
+      <div class="article-card">
+        <div class="article-thumb"><i class="fa-solid fa-laptop"></i></div>
+        <div class="article-body">
+          <span class="article-tag">Numérique</span>
+          <h3 class="article-title">Les outils numériques en archives</h3>
+          <p class="article-excerpt">Un tour d'horizon des meilleurs outils pour moderniser et sécuriser vos archives.</p>
+          <a href="https://victorinemonne.com/blog" class="article-link">Lire plus →</a>
+        </div>
+      </div>
+      <div class="article-card">
+        <div class="article-thumb"><i class="fa-solid fa-shield-halved"></i></div>
+        <div class="article-body">
+          <span class="article-tag">Sécurité</span>
+          <h3 class="article-title">Sécuriser vos données documentaires</h3>
+          <p class="article-excerpt">Comprendre les risques et mettre en place des mesures simples pour protéger vos données.</p>
+          <a href="https://victorinemonne.com/blog" class="article-link">Lire plus →</a>
+        </div>
+      </div>
+    </div>
+    <div class="articles-cta">
+      <a href="https://victorinemonne.com/blog" class="btn-outline"><i class="fa-solid fa-arrow-right"></i> &nbsp;Voir tous les articles</a>
+    </div>
+  </div>
+</section>
+
+<!-- 6. CONTACT -->
+<section class="section-bg-white" id="contact">
+  <div class="section">
+    <div class="contact-inner">
+      <h2 class="section-title">Contact</h2>
+      <p class="contact-subtitle">Une question, un projet ? Envoyez-moi un message, je vous réponds rapidement.</p>
+      <div class="contact-links">
+        <a href="mailto:victorinemonne@gmail.com" class="contact-item">
+          <div class="contact-icon mail"><i class="fa-solid fa-envelope"></i></div>
+          victorinemonne@gmail.com
+        </a>
+        <a href="https://www.linkedin.com/in/victorine-monn%C3%A9-0a3247b9" target="_blank" class="contact-item">
+          <div class="contact-icon linkedin"><i class="fa-brands fa-linkedin-in"></i></div>
+          LinkedIn / Victorine Monné
+        </a>
+      </div>
+      <form class="contact-form" onsubmit="handleSubmit(event)">
+        <div class="form-row">
+          <div class="form-group"><label>Prénom *</label><input type="text" placeholder="Votre prénom" required /></div>
+          <div class="form-group"><label>Nom *</label><input type="text" placeholder="Votre nom" required /></div>
+        </div>
+        <div class="form-group"><label>E-mail *</label><input type="email" placeholder="votre@email.com" required /></div>
+        <div class="form-group"><label>Message *</label><textarea rows="5" placeholder="Décrivez votre projet ou posez votre question..." required></textarea></div>
+        <div class="form-submit">
+          <button type="submit" class="btn-navy" style="padding:13px 40px;font-size:15px;">
+            <i class="fa-solid fa-paper-plane"></i> &nbsp;Envoyer le message
+          </button>
+        </div>
+        <p id="form-success" style="display:none;text-align:center;color:#16a34a;font-weight:600;margin-top:14px;">
+          <i class="fa-solid fa-circle-check"></i> Message envoyé ! Je vous répondrai très bientôt.
+        </p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p class="footer-copy">© 2025 <strong>Victorine Monné</strong> — Structurer la mémoire, propulser l'information</p>
+  <div class="footer-social">
+    <a href="https://www.linkedin.com/in/victorine-monn%C3%A9-0a3247b9" target="_blank" class="social-btn" title="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+    <a href="mailto:victorinemonne@gmail.com" class="social-btn" title="Email"><i class="fa-solid fa-envelope"></i></a>
+  </div>
+</footer>
+
+<script>
+function handleSubmit(e) {
+  e.preventDefault();
+  document.getElementById('form-success').style.display = 'block';
+  e.target.reset();
+  setTimeout(() => { document.getElementById('form-success').style.display = 'none'; }, 5000);
+}
+</script>
+</body>
+</html>
