@@ -3,1134 +3,459 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LIKOAM — Gestion d'Archives Numériques</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<title>LIKOAM — Système de Gestion d'Archives Numériques pour l'Afrique</title>
+
+<!-- SEO Meta tags -->
+<meta name="description" content="LIKOAM est un système de gestion d'archives numériques conçu pour les organisations africaines à moyens limités. Versement, recherche, DUA automatique. Accessible depuis n'importe quel navigateur.">
+<meta name="keywords" content="gestion archives, archivage numérique, Afrique, PME, ONG, documents, LIKOAM, Côte d'Ivoire, gestion documentaire">
+<meta name="author" content="Victorine Monné">
+<meta name="robots" content="index, follow">
+
+<!-- Open Graph pour réseaux sociaux -->
+<meta property="og:title" content="LIKOAM — Gestion d'Archives Numériques pour l'Afrique">
+<meta property="og:description" content="Simplifiez la gestion de vos archives. LIKOAM est accessible, abordable et conçu pour les organisations africaines.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://vmonne.github.io/likoam.html">
+
+<!-- Canonical -->
+<link rel="canonical" href="https://vmonne.github.io/likoam.html">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 <style>
-:root {
-  --ink:     #1E293B;
-  --gold:    #C5A059;
-  --gold2:   #E8C47A;
-  --blue:    #3B82F6;
-  --green:   #22C55E;
-  --orange:  #F97316;
-  --red:     #802432;
-  --bg:      #F7F4EF;
-  --surface: #FFFFFF;
-  --border:  #E2D9CC;
-  --muted:   #7A7267;
-  --dark:    #0F172A;
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+
+:root{
+  --bordeaux: #8B1A2B;
+  --bordeaux-dark: #6B1220;
+  --navy: #1C2B3A;
+  --gold: #C9A84C;
+  --gold-light: #FDF6E3;
+  --bg: #F5F5F5;
+  --white: #FFFFFF;
+  --text: #1A1A1A;
+  --muted: #666666;
+  --border: #E0E0E0;
 }
 
-*{box-sizing:border-box;margin:0;padding:0;}
-html{scroll-behavior:smooth;}
-body{font-family:'Syne',sans-serif;background:var(--bg);color:var(--ink);overflow-x:hidden;}
+body{font-family:Arial,sans-serif;color:var(--text);background:var(--white);}
 
 /* ── NAV ── */
 nav{
-  position:fixed;top:0;left:0;right:0;z-index:100;
-  display:flex;align-items:center;justify-content:space-between;
-  padding:0 60px;height:68px;
-  background:rgba(15,23,42,.92);
-  backdrop-filter:blur(12px);
-  border-bottom:1px solid rgba(197,160,89,.2);
-  transition:all .3s;
+  background-color:var(--navy);
+  padding:15px 40px;
+  display:flex;justify-content:space-between;align-items:center;
+  position:sticky;top:0;z-index:100;
 }
-.nav-logo{
-  font-family:'Cormorant Garamond',serif;
-  font-size:28px;font-weight:700;
-  color:#fff;letter-spacing:1px;
-}
-.nav-logo span{color:var(--gold);}
-.nav-links{display:flex;gap:36px;list-style:none;}
-.nav-links a{
-  color:rgba(255,255,255,.7);font-size:13px;font-weight:500;
-  text-decoration:none;letter-spacing:.5px;text-transform:uppercase;
-  transition:color .2s;
-}
-.nav-links a:hover{color:var(--gold);}
+.logo{color:var(--gold);font-size:22px;font-weight:bold;letter-spacing:2px;}
+nav ul{list-style:none;display:flex;gap:30px;}
+nav ul li a{color:#fff;text-decoration:none;font-size:14px;transition:color .2s;}
+nav ul li a:hover{color:var(--gold);}
 .nav-cta{
-  background:var(--gold);color:#fff;
-  font-size:13px;font-weight:600;
-  padding:9px 22px;border-radius:6px;
-  text-decoration:none;letter-spacing:.3px;
-  transition:all .2s;
-  border:none;cursor:pointer;
+  background:var(--bordeaux);color:#fff !important;
+  padding:8px 20px;border-radius:4px;font-weight:bold;
+  transition:background .2s !important;
 }
-.nav-cta:hover{background:var(--gold2);color:var(--ink);}
-.nav-burger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;}
-.nav-burger span{display:block;width:22px;height:2px;background:#fff;border-radius:2px;transition:all .3s;}
+.nav-cta:hover{background:var(--gold) !important;color:var(--navy) !important;}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;}
+.hamburger span{display:block;width:25px;height:3px;background:#fff;border-radius:3px;}
+#menu.ouvert{display:flex !important;}
 
 /* ── HERO ── */
-.hero{
-  min-height:100vh;
-  display:flex;align-items:center;
-  background:var(--dark);
-  position:relative;overflow:hidden;
-  padding:100px 60px 80px;
+#hero{
+  background-image:url('https://images.unsplash.com/photo-1573164574511-73c773193279?q=80&w=1469&auto=format&fit=crop');
+  background-size:cover;background-position:center;
+  color:#fff;text-align:center;
+  padding:140px 40px;
+  border-bottom:4px solid var(--gold);
+  position:relative;
 }
-.hero-bg{
-  position:absolute;inset:0;
-  background:
-    radial-gradient(ellipse 80% 60% at 70% 50%, rgba(197,160,89,.12) 0%, transparent 60%),
-    radial-gradient(ellipse 40% 40% at 15% 80%, rgba(59,130,246,.08) 0%, transparent 50%),
-    radial-gradient(ellipse 60% 80% at 90% 10%, rgba(197,160,89,.06) 0%, transparent 50%);
+#hero::before{
+  content:'';position:absolute;top:0;left:0;width:100%;height:100%;
+  background:rgba(28,43,58,0.80);
 }
-
-/* Floating orbs */
-.orb{
-  position:absolute;border-radius:50%;filter:blur(60px);pointer-events:none;
-  animation:float 8s ease-in-out infinite;
-}
-.orb1{width:400px;height:400px;background:rgba(197,160,89,.12);top:-100px;right:5%;animation-delay:0s;}
-.orb2{width:300px;height:300px;background:rgba(59,130,246,.08);bottom:10%;left:-50px;animation-delay:3s;}
-.orb3{width:200px;height:200px;background:rgba(197,160,89,.08);top:40%;right:30%;animation-delay:5s;}
-@keyframes float{
-  0%,100%{transform:translateY(0) scale(1);}
-  50%{transform:translateY(-30px) scale(1.05);}
-}
-
-.hero-inner{
-  position:relative;z-index:2;
-  max-width:1200px;margin:0 auto;width:100%;
-  display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;
-}
-.hero-label{
-  display:inline-flex;align-items:center;gap:8px;
-  background:rgba(197,160,89,.15);border:1px solid rgba(197,160,89,.3);
-  border-radius:20px;padding:5px 14px;
-  font-size:11px;font-weight:600;color:var(--gold);
-  letter-spacing:1px;text-transform:uppercase;
-  margin-bottom:28px;
-  animation:fadeUp .8s ease both;
-}
-.hero-label::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--gold);animation:pulse 2s infinite;}
-@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.3;};}
-
-.hero-title{
-  font-family:'Cormorant Garamond',serif;
-  font-size:clamp(52px,5vw,80px);
-  font-weight:700;
-  line-height:1.0;
-  color:#fff;
-  margin-bottom:8px;
-  animation:fadeUp .8s .1s ease both;
-}
-.hero-title .accent{color:var(--gold);}
-.hero-title .italic{font-style:italic;color:rgba(255,255,255,.75);}
-
-.hero-sub-title{
-  font-family:'Cormorant Garamond',serif;
-  font-size:clamp(18px,2vw,24px);
-  color:rgba(255,255,255,.55);
-  font-style:italic;
-  margin-bottom:28px;
-  animation:fadeUp .8s .2s ease both;
-}
-
-.hero-desc{
-  font-size:15px;line-height:1.8;
-  color:rgba(255,255,255,.65);
-  max-width:480px;margin-bottom:40px;
-  animation:fadeUp .8s .3s ease both;
-}
-
-.hero-actions{
-  display:flex;gap:14px;flex-wrap:wrap;
-  animation:fadeUp .8s .4s ease both;
-}
+.hero-contenu{position:relative;z-index:1;}
+#hero h1{font-size:56px;color:var(--gold);letter-spacing:4px;margin-bottom:12px;}
+#hero .hero-sub{font-size:20px;color:rgba(255,255,255,.85);margin-bottom:8px;font-style:italic;}
+#hero .hero-desc{font-size:16px;color:rgba(255,255,255,.65);margin-bottom:36px;max-width:600px;margin-left:auto;margin-right:auto;line-height:1.7;}
+.hero-btns{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;}
 .btn-primary{
-  display:inline-flex;align-items:center;gap:8px;
-  background:var(--gold);color:#fff;
-  font-size:14px;font-weight:600;
-  padding:13px 28px;border-radius:8px;
-  text-decoration:none;
-  transition:all .25s;
-  box-shadow:0 4px 20px rgba(197,160,89,.35);
+  display:inline-block;background:var(--bordeaux);color:#fff;
+  padding:14px 35px;text-decoration:none;font-weight:bold;
+  border-radius:4px;letter-spacing:1px;transition:all .2s;
 }
-.btn-primary:hover{background:var(--gold2);color:var(--ink);transform:translateY(-2px);box-shadow:0 8px 28px rgba(197,160,89,.45);}
+.btn-primary:hover{background:var(--gold);color:var(--navy);}
 .btn-outline{
-  display:inline-flex;align-items:center;gap:8px;
-  border:1.5px solid rgba(255,255,255,.25);color:rgba(255,255,255,.85);
-  font-size:14px;font-weight:500;
-  padding:13px 28px;border-radius:8px;
-  text-decoration:none;
-  transition:all .25s;
+  display:inline-block;border:2px solid rgba(255,255,255,.6);color:#fff;
+  padding:12px 35px;text-decoration:none;font-weight:bold;
+  border-radius:4px;letter-spacing:1px;transition:all .2s;
 }
 .btn-outline:hover{border-color:var(--gold);color:var(--gold);}
 
-/* Hero right — mock dashboard */
-.hero-visual{
-  position:relative;
-  animation:fadeUp .8s .5s ease both;
-}
-.mock-window{
-  background:rgba(255,255,255,.04);
-  border:1px solid rgba(255,255,255,.12);
-  border-radius:14px;
-  overflow:hidden;
-  box-shadow:0 40px 80px rgba(0,0,0,.5),0 0 0 1px rgba(197,160,89,.1);
-}
-.mock-bar{
-  background:rgba(255,255,255,.06);
-  padding:12px 18px;
-  display:flex;align-items:center;gap:8px;
-  border-bottom:1px solid rgba(255,255,255,.07);
-}
-.mock-dot{width:10px;height:10px;border-radius:50%;}
-.mock-dot.r{background:#FF5F57;}
-.mock-dot.y{background:#FFBD2E;}
-.mock-dot.g{background:#28C840;}
-.mock-url{
-  flex:1;background:rgba(255,255,255,.06);border-radius:4px;
-  padding:5px 12px;font-size:11px;color:rgba(255,255,255,.35);
-  font-family:monospace;margin:0 12px;
-}
-.mock-body{padding:20px;}
-/* Stats row */
-.stat-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px;}
-.stat-card{
-  background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);
-  border-radius:8px;padding:14px 12px;text-align:center;
-}
-.stat-card .s-val{font-size:22px;font-weight:700;color:#fff;font-family:'Cormorant Garamond',serif;}
-.stat-card .s-label{font-size:9px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.5px;margin-top:2px;}
-.stat-card.gold{border-color:rgba(197,160,89,.3);background:rgba(197,160,89,.08);}
-.stat-card.gold .s-val{color:var(--gold);}
-.stat-card.red{border-color:rgba(248,113,113,.2);background:rgba(248,113,113,.05);}
-.stat-card.red .s-val{color:#F87171;}
-.stat-card.orange{border-color:rgba(251,146,60,.2);background:rgba(251,146,60,.05);}
-.stat-card.orange .s-val{color:#FB923C;}
-/* Table mock */
-.mock-table{width:100%;}
-.mt-head{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:8px;padding:8px 10px;background:rgba(197,160,89,.1);border-radius:6px;margin-bottom:8px;}
-.mt-head span{font-size:9px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.5px;}
-.mt-row{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:8px;padding:7px 10px;border-radius:5px;margin-bottom:4px;background:rgba(255,255,255,.03);align-items:center;}
-.mt-row:nth-child(even){background:rgba(255,255,255,.015);}
-.mt-row span{font-size:10px;color:rgba(255,255,255,.55);}
-.mt-row .doc{color:rgba(255,255,255,.8);font-weight:500;}
-.badge-sm{
-  display:inline-block;border-radius:3px;padding:2px 7px;font-size:9px;font-weight:600;
-}
-.badge-sm.pending{background:rgba(251,191,36,.15);color:#FBB724;}
-.badge-sm.valid{background:rgba(34,197,94,.15);color:#22C55E;}
-
-@keyframes fadeUp{
-  from{opacity:0;transform:translateY(20px);}
-  to{opacity:1;transform:translateY(0);}
-}
-
-/* ── SECTION COMMON ── */
-section{padding:100px 60px;}
-.section-inner{max-width:1200px;margin:0 auto;}
+/* ── SECTIONS ── */
+.section-inner{max-width:1100px;margin:0 auto;}
 .section-tag{
   display:inline-block;
-  background:rgba(197,160,89,.12);border:1px solid rgba(197,160,89,.25);
+  background:rgba(139,26,43,.08);border:1px solid rgba(139,26,43,.2);
   border-radius:20px;padding:4px 14px;
-  font-size:11px;font-weight:700;color:var(--gold);
-  letter-spacing:1px;text-transform:uppercase;
-  margin-bottom:16px;
+  font-size:11px;font-weight:700;color:var(--bordeaux);
+  letter-spacing:1px;text-transform:uppercase;margin-bottom:14px;
 }
 .section-title{
-  font-family:'Cormorant Garamond',serif;
-  font-size:clamp(36px,4vw,54px);
-  font-weight:700;line-height:1.1;
-  color:var(--ink);margin-bottom:16px;
+  font-size:clamp(28px,3vw,38px);font-weight:700;
+  color:var(--bordeaux);margin-bottom:12px;
+  padding-bottom:10px;border-bottom:3px solid var(--gold);
+  display:inline-block;
 }
-.section-title .it{font-style:italic;color:var(--gold);}
-.section-desc{
-  font-size:15px;line-height:1.8;
-  color:var(--muted);max-width:560px;
-}
+.section-desc{font-size:15px;color:var(--muted);line-height:1.8;max-width:620px;}
 
 /* ── POURQUOI ── */
-.why-section{background:var(--surface);}
-.why-grid{
-  display:grid;grid-template-columns:1fr 1fr;gap:80px;
-  align-items:center;margin-top:60px;
-}
-.why-text .section-desc{max-width:100%;}
-.problem-list{margin-top:32px;display:flex;flex-direction:column;gap:14px;}
+#pourquoi{background:var(--white);padding:80px 40px;}
+.why-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;margin-top:48px;}
+.problem-list{display:flex;flex-direction:column;gap:14px;margin-top:28px;}
 .problem-item{
   display:flex;align-items:flex-start;gap:14px;
-  padding:16px 18px;
-  background:var(--bg);border:1px solid var(--border);border-radius:10px;
-  transition:all .25s;
+  padding:16px 18px;background:var(--bg);
+  border:1px solid var(--border);border-radius:8px;
+  border-left:4px solid var(--bordeaux);transition:all .2s;
 }
-.problem-item:hover{border-color:var(--gold);transform:translateX(4px);}
-.problem-icon{font-size:22px;flex-shrink:0;}
-.problem-text strong{display:block;font-size:14px;font-weight:600;margin-bottom:3px;}
+.problem-item:hover{border-left-color:var(--gold);transform:translateX(4px);}
+.problem-icon{font-size:20px;flex-shrink:0;color:var(--bordeaux);}
+.problem-text strong{display:block;font-size:14px;font-weight:700;margin-bottom:3px;color:var(--navy);}
 .problem-text span{font-size:13px;color:var(--muted);line-height:1.5;}
-
-/* Stats column */
 .why-stats{display:flex;flex-direction:column;gap:20px;}
-.big-stat{
-  background:var(--dark);border-radius:14px;padding:32px 28px;
-  position:relative;overflow:hidden;
-}
-.big-stat::before{
-  content:'';position:absolute;top:-30px;right:-30px;
-  width:120px;height:120px;border-radius:50%;
-  background:rgba(197,160,89,.12);
-}
-.big-stat .stat-num{
-  font-family:'Cormorant Garamond',serif;
-  font-size:56px;font-weight:700;color:var(--gold);line-height:1;
-  margin-bottom:6px;
-}
-.big-stat .stat-desc{font-size:13px;color:rgba(255,255,255,.6);line-height:1.5;}
-.small-stats{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
-.small-stat{
-  background:var(--bg);border:1px solid var(--border);
-  border-radius:12px;padding:20px 18px;text-align:center;
-}
-.small-stat .n{
-  font-family:'Cormorant Garamond',serif;
-  font-size:36px;font-weight:700;color:var(--ink);line-height:1;
-  margin-bottom:4px;
-}
+.big-stat{background:var(--navy);border-radius:12px;padding:32px 28px;border-left:4px solid var(--gold);}
+.big-stat .stat-num{font-size:56px;font-weight:700;color:var(--gold);line-height:1;margin-bottom:8px;}
+.big-stat .stat-desc{font-size:13px;color:rgba(255,255,255,.65);line-height:1.5;}
+.small-stats{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.small-stat{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:20px;text-align:center;border-top:3px solid var(--bordeaux);}
+.small-stat .n{font-size:32px;font-weight:700;color:var(--bordeaux);margin-bottom:4px;}
 .small-stat .n span{color:var(--gold);}
 .small-stat p{font-size:12px;color:var(--muted);line-height:1.4;}
 
 /* ── PUBLIC CIBLE ── */
-.audience-section{background:var(--bg);}
-.audience-grid{
-  display:grid;grid-template-columns:repeat(3,1fr);gap:24px;
-  margin-top:60px;
-}
+#public{background:var(--bg);padding:80px 40px;}
+.audience-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:48px;}
 .audience-card{
-  background:var(--surface);border:1px solid var(--border);
-  border-radius:14px;padding:32px 26px;
-  position:relative;overflow:hidden;
-  transition:all .3s;
+  background:var(--white);border:1px solid var(--border);
+  border-radius:10px;padding:28px 22px;
+  border-top:4px solid var(--bordeaux);transition:all .3s;
 }
-.audience-card::before{
-  content:'';position:absolute;bottom:0;left:0;right:0;height:3px;
-  background:var(--gold);transform:scaleX(0);transform-origin:left;
-  transition:transform .3s;
-}
-.audience-card:hover{transform:translateY(-6px);box-shadow:0 20px 40px rgba(30,41,59,.12);}
-.audience-card:hover::before{transform:scaleX(1);}
-.aud-icon{
-  width:52px;height:52px;border-radius:12px;
-  background:rgba(197,160,89,.1);border:1px solid rgba(197,160,89,.2);
-  display:flex;align-items:center;justify-content:center;
-  font-size:24px;margin-bottom:20px;
-}
-.aud-title{font-size:17px;font-weight:700;margin-bottom:8px;color:var(--ink);}
+.audience-card:hover{transform:translateY(-5px);box-shadow:0 12px 32px rgba(0,0,0,.1);border-top-color:var(--gold);}
+.aud-icon{font-size:32px;margin-bottom:14px;display:block;}
+.aud-title{font-size:16px;font-weight:700;margin-bottom:8px;color:var(--navy);}
 .aud-desc{font-size:13px;color:var(--muted);line-height:1.7;}
-.aud-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px;}
-.aud-tag{
-  background:var(--bg);border:1px solid var(--border);
-  border-radius:20px;padding:3px 10px;
-  font-size:11px;color:var(--muted);font-weight:500;
-}
+.aud-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px;}
+.aud-tag{background:var(--bg);border:1px solid var(--border);border-radius:20px;padding:3px 10px;font-size:11px;color:var(--muted);}
 
 /* ── FONCTIONNALITÉS ── */
-.features-section{background:var(--surface);color:var(--ink);}
-.features-section .section-title{color:var(--ink);}
-.features-section .section-desc{color:var(--muted);}
-.features-tabs{
-  display:flex;gap:8px;flex-wrap:wrap;
-  margin:40px 0 32px;
-}
-.feat-tab{
-  padding:8px 20px;border-radius:20px;
-  font-size:13px;font-weight:500;cursor:pointer;
-  border:1.5px solid var(--border);
-  color:var(--muted);
-  background:transparent;transition:all .2s;
-}
-.feat-tab.active,
-.feat-tab:hover{
-  border-color:var(--gold);color:var(--gold);
-  background:rgba(197,160,89,.08);
-}
-.features-grid{
-  display:grid;grid-template-columns:repeat(3,1fr);gap:20px;
-}
-.feat-card{
-  background:var(--bg);
-  border:1px solid var(--border);
-  border-radius:12px;padding:26px 22px;
-  transition:all .3s;
-  cursor:default;
-}
-.feat-card:hover{
-  background:#FDF6E3;
-  border-color:var(--gold);
-  transform:translateY(-4px);
-}
-.feat-icon{
-  width:44px;height:44px;border-radius:10px;
-  background:rgba(197,160,89,.12);
-  display:flex;align-items:center;justify-content:center;
-  font-size:20px;margin-bottom:16px;
-}
-.feat-title{font-size:15px;font-weight:600;color:var(--ink);margin-bottom:8px;}
+#fonctionnalites{background:var(--white);padding:80px 40px;text-align:center;}
+.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:48px;}
+.feat-card{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:28px 22px;text-align:left;border-top:4px solid var(--bordeaux);transition:all .2s;}
+.feat-card:hover{border-top-color:var(--gold);box-shadow:0 6px 20px rgba(0,0,0,.08);transform:translateY(-3px);}
+.feat-icon{width:46px;height:46px;border-radius:10px;background:rgba(139,26,43,.1);display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:14px;color:var(--bordeaux);}
+.feat-title{font-size:15px;font-weight:700;color:var(--navy);margin-bottom:8px;}
 .feat-desc{font-size:13px;color:var(--muted);line-height:1.65;}
-.feat-tag{
-  display:inline-block;margin-top:12px;
-  background:rgba(197,160,89,.12);color:var(--gold);
-  border-radius:4px;padding:2px 8px;font-size:10px;font-weight:600;
-}
+.feat-tag{display:inline-block;margin-top:10px;background:rgba(139,26,43,.08);color:var(--bordeaux);border-radius:4px;padding:2px 8px;font-size:10px;font-weight:700;}
 
-/* ── DEMO / CAPTURES ── */
-.demo-section{background:var(--surface);}
-.demo-layout{
-  display:grid;grid-template-columns:1fr 1.2fr;gap:60px;
-  align-items:center;margin-top:60px;
-}
-.demo-screens{
-  position:relative;height:420px;
-}
-/* Stacked screen effect */
-.screen{
-  position:absolute;
-  background:var(--dark);
-  border:1px solid rgba(255,255,255,.08);
-  border-radius:12px;
-  overflow:hidden;
-  box-shadow:0 20px 60px rgba(0,0,0,.25);
-  transition:all .4s cubic-bezier(.34,1.56,.64,1);
-}
-.screen.s1{width:85%;left:0;top:0;z-index:3;}
-.screen.s2{width:80%;right:0;top:40px;z-index:2;opacity:.7;}
-.screen.s3{width:75%;left:10%;top:80px;z-index:1;opacity:.4;}
-.screen:hover{transform:scale(1.02);}
-.screen-bar{
-  background:rgba(255,255,255,.05);
-  padding:10px 14px;
-  display:flex;align-items:center;gap:6px;
-  border-bottom:1px solid rgba(255,255,255,.05);
-}
-.sdot{width:7px;height:7px;border-radius:50%;}
-.screen-content{padding:16px;}
-/* mini sidebar */
-.mini-layout{display:flex;gap:10px;height:260px;}
-.mini-sidebar{
-  width:80px;background:rgba(255,255,255,.03);
-  border-radius:6px;padding:10px 6px;
-  display:flex;flex-direction:column;gap:6px;
-}
-.mini-nav-item{
-  padding:6px 8px;border-radius:4px;
-  font-size:8px;color:rgba(255,255,255,.35);
-  text-align:center;cursor:default;
-}
-.mini-nav-item.active{background:rgba(197,160,89,.15);color:var(--gold);}
-.mini-main{flex:1;display:flex;flex-direction:column;gap:8px;}
-.mini-title{font-size:9px;font-weight:700;color:rgba(255,255,255,.7);text-transform:uppercase;letter-spacing:.5px;}
-.mini-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;}
-.mini-stat{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);border-radius:5px;padding:8px 6px;text-align:center;}
-.mini-stat .mv{font-size:16px;font-weight:700;font-family:'Cormorant Garamond',serif;}
-.mini-stat .ml{font-size:7px;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.3px;margin-top:1px;}
-.mini-rows{display:flex;flex-direction:column;gap:4px;margin-top:4px;}
-.mini-row{display:flex;align-items:center;gap:6px;padding:5px 6px;background:rgba(255,255,255,.02);border-radius:4px;}
-.mini-row-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;}
-.mini-row-text{font-size:8px;color:rgba(255,255,255,.45);flex:1;}
-.mini-row-badge{font-size:7px;padding:1px 5px;border-radius:2px;font-weight:600;}
-
-.demo-desc{display:flex;flex-direction:column;gap:24px;}
-.demo-step{
-  display:flex;align-items:flex-start;gap:16px;
-  padding:20px;background:var(--bg);border:1px solid var(--border);
-  border-radius:10px;transition:all .2s;
-}
-.demo-step:hover{border-color:var(--gold);}
-.demo-step-num{
-  width:32px;height:32px;border-radius:8px;
-  background:var(--gold);color:#fff;
-  font-size:14px;font-weight:700;
-  display:flex;align-items:center;justify-content:center;
-  flex-shrink:0;
-}
-.demo-step-text strong{display:block;font-size:14px;font-weight:600;margin-bottom:4px;}
-.demo-step-text span{font-size:13px;color:var(--muted);line-height:1.5;}
-.demo-cta{
-  margin-top:8px;
-  display:inline-flex;align-items:center;gap:8px;
-  background:var(--ink);color:#fff;
-  font-size:13px;font-weight:600;
-  padding:11px 24px;border-radius:8px;
-  text-decoration:none;
-  transition:all .2s;
-}
-.demo-cta:hover{background:var(--gold);}
-
-/* ── TÉMOIGNAGES ── */
-.testim-section{background:var(--bg);}
-.testim-grid{
-  display:grid;grid-template-columns:repeat(3,1fr);gap:24px;
-  margin-top:60px;
-}
-.testim-card{
-  background:var(--surface);border:1px solid var(--border);
-  border-radius:14px;padding:28px 24px;
-  position:relative;
-}
-.testim-quote{
-  font-family:'Cormorant Garamond',serif;
-  font-size:48px;color:var(--gold);
-  line-height:.7;margin-bottom:16px;
-}
-.testim-text{
-  font-size:14px;line-height:1.7;
-  color:var(--ink);font-style:italic;
-  font-family:'Cormorant Garamond',serif;
-  margin-bottom:20px;
-}
-.testim-author{
-  display:flex;align-items:center;gap:12px;
-}
-.testim-avatar{
-  width:40px;height:40px;border-radius:50%;
-  background:var(--dark);
-  display:flex;align-items:center;justify-content:center;
-  font-size:16px;flex-shrink:0;
-}
-.testim-name{font-size:13px;font-weight:700;}
-.testim-role{font-size:11px;color:var(--muted);}
-.stars{color:var(--gold);font-size:12px;margin-bottom:12px;}
-.testim-note{
-  background:rgba(197,160,89,.07);border:1px solid rgba(197,160,89,.2);
-  border-radius:8px;padding:10px 14px;
-  font-size:12px;color:var(--muted);
-  text-align:center;margin-top:40px;
-  font-style:italic;
-}
+/* ── COMMENT ÇA MARCHE ── */
+#comment{background:var(--bg);padding:80px 40px;text-align:center;}
+.etapes{display:flex;flex-wrap:wrap;justify-content:center;gap:32px;margin-top:48px;}
+.etape{width:260px;text-align:center;}
+.etape-numero{width:48px;height:48px;background:var(--bordeaux);color:#fff;border-radius:50%;font-size:20px;font-weight:700;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;}
+.etape h3{font-size:16px;color:var(--navy);margin-bottom:8px;font-weight:700;}
+.etape p{font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:14px;}
+.etape img{width:100%;border-radius:8px;border:2px solid var(--gold);box-shadow:0 4px 16px rgba(0,0,0,.12);}
 
 /* ── CONTACT ── */
-.contact-section{
-  background:var(--dark);
-  position:relative;overflow:hidden;
-}
-.contact-section::before{
-  content:'';position:absolute;
-  top:-200px;right:-200px;
-  width:600px;height:600px;border-radius:50%;
-  background:radial-gradient(circle, rgba(197,160,89,.08) 0%, transparent 70%);
-}
-.contact-grid{
-  display:grid;grid-template-columns:1fr 1fr;gap:80px;
-  align-items:start;position:relative;z-index:1;
-}
-.contact-grid .section-title{color:#fff;}
-.contact-grid .section-desc{color:rgba(255,255,255,.5);max-width:100%;}
-.contact-infos{display:flex;flex-direction:column;gap:16px;margin-top:32px;}
-.contact-info{
-  display:flex;align-items:center;gap:14px;
-  padding:16px 18px;
-  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);
-  border-radius:10px;
-  transition:all .2s;
-}
-.contact-info:hover{border-color:rgba(197,160,89,.3);}
-.ci-icon{font-size:20px;flex-shrink:0;}
-.ci-label{font-size:11px;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.5px;font-weight:600;}
-.ci-val{font-size:14px;color:rgba(255,255,255,.85);margin-top:2px;}
-.ci-val a{color:var(--gold);text-decoration:none;}
-.ci-val a:hover{text-decoration:underline;}
+#contact{background:var(--navy);padding:80px 40px;}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start;max-width:1100px;margin:0 auto;}
+.contact-left h2{font-size:34px;color:var(--gold);margin-bottom:16px;}
+.contact-left p{font-size:15px;color:rgba(255,255,255,.7);margin-bottom:28px;line-height:1.7;}
+.contact-infos{display:flex;flex-direction:column;gap:14px;}
+.contact-info{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:14px 18px;transition:border-color .2s;}
+.contact-info:hover{border-color:rgba(201,168,76,.4);}
+.contact-info i{font-size:16px;color:var(--gold);flex-shrink:0;}
+.contact-info a,.contact-info span{color:rgba(255,255,255,.85);text-decoration:none;font-size:14px;}
+.contact-info a:hover{color:var(--gold);}
 
-/* Form */
-.contact-form{
-  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);
-  border-radius:16px;padding:32px;
-}
-.form-title{
-  font-family:'Cormorant Garamond',serif;
-  font-size:24px;font-weight:600;color:#fff;
-  margin-bottom:24px;
-}
+/* Formulaire */
+.contact-form{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:32px;}
+.form-title{font-size:20px;font-weight:700;color:#fff;margin-bottom:24px;border-bottom:2px solid var(--gold);padding-bottom:10px;}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
 .form-group{margin-bottom:16px;}
-.form-group label{
-  display:block;font-size:12px;font-weight:600;
-  color:rgba(255,255,255,.45);text-transform:uppercase;
-  letter-spacing:.5px;margin-bottom:6px;
-}
+.form-group label{display:block;font-size:12px;font-weight:700;color:rgba(255,255,255,.55);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;}
 .form-group input,
 .form-group select,
 .form-group textarea{
-  width:100%;background:rgba(255,255,255,.06);
-  border:1.5px solid rgba(255,255,255,.1);
+  width:100%;background:rgba(255,255,255,.07);
+  border:1.5px solid rgba(255,255,255,.15);
   border-radius:8px;padding:11px 14px;
-  font-family:'Syne',sans-serif;font-size:14px;
-  color:#fff;outline:none;
-  transition:border-color .2s;
+  font-size:14px;color:#fff;outline:none;
+  transition:border-color .2s;font-family:Arial,sans-serif;
 }
-.form-group input::placeholder,
-.form-group textarea::placeholder{color:rgba(255,255,255,.25);}
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus{border-color:var(--gold);}
-.form-group select option{background:var(--dark);color:#fff;}
+.form-group input::placeholder,.form-group textarea::placeholder{color:rgba(255,255,255,.3);}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--gold);}
+.form-group select option{background:var(--navy);color:#fff;}
 .form-group textarea{resize:vertical;min-height:100px;}
 .form-submit{
-  width:100%;background:var(--gold);color:#fff;
-  border:none;border-radius:8px;
-  padding:13px;font-family:'Syne',sans-serif;
-  font-size:14px;font-weight:600;cursor:pointer;
-  transition:all .2s;margin-top:4px;
-  box-shadow:0 4px 16px rgba(197,160,89,.3);
+  width:100%;background:var(--bordeaux);color:#fff;
+  border:none;border-radius:8px;padding:14px;
+  font-size:15px;font-weight:700;cursor:pointer;
+  transition:all .2s;margin-top:4px;letter-spacing:.5px;
 }
-.form-submit:hover{background:var(--gold2);color:var(--ink);transform:translateY(-1px);}
-.form-success{
-  display:none;text-align:center;padding:40px 20px;
-}
+.form-submit:hover{background:var(--gold);color:var(--navy);}
+.form-success{display:none;text-align:center;padding:40px 20px;}
 .form-success .fs-icon{font-size:48px;margin-bottom:12px;}
-.form-success p{color:rgba(255,255,255,.7);font-size:14px;line-height:1.6;}
+.form-success p{color:rgba(255,255,255,.8);font-size:15px;line-height:1.6;}
 
 /* ── FOOTER ── */
-footer{
-  background:#080E19;
-  padding:48px 60px 32px;
-  border-top:1px solid rgba(197,160,89,.15);
-}
-.footer-inner{max-width:1200px;margin:0 auto;}
-.footer-top{
-  display:flex;justify-content:space-between;align-items:flex-start;
-  margin-bottom:40px;flex-wrap:wrap;gap:32px;
-}
-.footer-brand .fl{
-  font-family:'Cormorant Garamond',serif;
-  font-size:32px;font-weight:700;color:#fff;
-}
-.footer-brand .fl span{color:var(--gold);}
-.footer-brand p{font-size:12px;color:rgba(255,255,255,.35);margin-top:6px;line-height:1.5;max-width:240px;}
-.footer-links{display:flex;gap:60px;flex-wrap:wrap;}
-.footer-col h4{font-size:11px;font-weight:700;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.8px;margin-bottom:14px;}
-.footer-col a{display:block;font-size:13px;color:rgba(255,255,255,.5);text-decoration:none;margin-bottom:8px;transition:color .2s;}
-.footer-col a:hover{color:var(--gold);}
-.footer-bottom{
-  border-top:1px solid rgba(255,255,255,.06);
-  padding-top:24px;
-  display:flex;justify-content:space-between;align-items:center;
-  flex-wrap:wrap;gap:12px;
-}
-.footer-bottom p{font-size:12px;color:rgba(255,255,255,.25);}
-.footer-bottom .version{
-  background:rgba(197,160,89,.1);border:1px solid rgba(197,160,89,.2);
-  border-radius:4px;padding:3px 10px;
-  font-size:11px;color:var(--gold);font-weight:600;
-}
+footer{background:var(--white);color:#444;text-align:center;padding:24px 40px;font-size:13px;line-height:2;border-top:3px solid var(--gold);}
+footer a{color:var(--bordeaux);text-decoration:none;}
+footer a:hover{color:var(--gold);}
 
-/* ── Scroll reveal ── */
-.reveal{opacity:0;transform:translateY(30px);transition:opacity .6s ease,transform .6s ease;}
-.reveal.visible{opacity:1;transform:translateY(0);}
-
-/* ── Responsive ── */
+/* ── RESPONSIVE ── */
 @media(max-width:900px){
-  nav{padding:0 24px;}
-  .nav-links,.nav-cta{display:none;}
-  .nav-burger{display:flex;}
-  .hero{padding:90px 24px 60px;}
-  .hero-inner{grid-template-columns:1fr;gap:40px;}
-  .hero-visual{display:none;}
-  section{padding:70px 24px;}
-  .why-grid,.demo-layout,.contact-grid{grid-template-columns:1fr;gap:40px;}
-  .features-grid,.audience-grid,.testim-grid{grid-template-columns:1fr 1fr;}
-  footer{padding:40px 24px 24px;}
-  .footer-top{flex-direction:column;}
+  .why-grid,.contact-grid{grid-template-columns:1fr;}
+  .audience-grid{grid-template-columns:1fr 1fr;}
+  .features-grid{grid-template-columns:1fr 1fr;}
 }
-@media(max-width:600px){
-  .features-grid,.audience-grid,.testim-grid{grid-template-columns:1fr;}
+@media(max-width:768px){
+  nav{flex-direction:column;gap:12px;padding:15px 20px;}
+  .hamburger{display:flex;}
+  #menu{display:none;flex-direction:column;width:100%;text-align:center;gap:12px;padding:10px 0;}
+  #hero{padding:80px 20px;}
+  #hero h1{font-size:36px;}
+  #pourquoi,#public,#fonctionnalites,#comment,#contact{padding:60px 20px;}
+  .audience-grid,.features-grid{grid-template-columns:1fr;}
+  .etapes{flex-direction:column;align-items:center;}
+  .etape{width:90%;}
   .form-row{grid-template-columns:1fr;}
-  .stat-cards{grid-template-columns:repeat(2,1fr);}
+  .small-stats{grid-template-columns:1fr;}
 }
 </style>
 </head>
 <body>
 
-<!-- ── NAV ─────────────────────────────────────────────────────────────────── -->
-<nav id="mainNav">
-  <div class="nav-logo">LIKO<span>AM</span></div>
-  <ul class="nav-links">
+<!-- NAV -->
+<nav>
+  <div class="logo">LIKOAM</div>
+  <div class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+  <ul id="menu">
     <li><a href="#pourquoi">Pourquoi</a></li>
     <li><a href="#public">Public cible</a></li>
     <li><a href="#fonctionnalites">Fonctionnalités</a></li>
-    <li><a href="#demo">Démo</a></li>
-    <li><a href="#contact">Contact</a></li>
+    <li><a href="#comment">Comment ça marche</a></li>
+    <li><a href="#contact" class="nav-cta">Demander un accès</a></li>
   </ul>
-  <a href="#contact" class="nav-cta">Demander un accès</a>
-  <div class="nav-burger" onclick="toggleMenu()">
-    <span></span><span></span><span></span>
-  </div>
 </nav>
 
-<!-- ── HERO ─────────────────────────────────────────────────────────────────── -->
-<section class="hero" id="top">
-  <div class="hero-bg"></div>
-    <div class="orb orb1"></div>
-  <div class="orb orb2"></div>
-  <div class="orb orb3"></div>
-
-  <div class="hero-inner">
-    <div class="hero-text">
-      <div class="hero-label">
-        <span>●</span> Version 0.1
-      </div>
-      <h1 class="hero-title">
-        LIKO<span class="accent">AM</span><br>
-      </h1>
-	  
-      <p class="hero-sub-title">Système de Gestion d'Archives Numériques</p>
-      <p class="hero-desc">
-        LIKOAM simplifie le versement, la conservation et le suivi des documents pour les organisations à moyens limités. Une solution complète, accessible depuis n'importe quel navigateur, sans infrastructure complexe.
-      </p>
-      <div class="hero-actions">
-        <a href="#contact" class="btn-primary">
-          <span>Demander un accès démo</span>
-          <span>→</span>
-        </a>
-        <a href="#fonctionnalites" class="btn-outline">
-          <span>Découvrir les fonctionnalités</span>
-        </a>
-      </div>
-    </div>
-
-    <!-- Mock dashboard -->
-    <div class="hero-visual">
-      <div class="mock-window">
-        <div class="mock-bar">
-          <div class="mock-dot r"></div>
-          <div class="mock-dot y"></div>
-          <div class="mock-dot g"></div>
-          <div class="mock-url">likoam.app / tableau-de-bord</div>
-        </div>
-        <div class="mock-body">
-          <div class="stat-cards">
-            <div class="stat-card"><div class="s-val">247</div><div class="s-label">Total docs</div></div>
-            <div class="stat-card gold"><div class="s-val">12</div><div class="s-label">À valider</div></div>
-            <div class="stat-card red"><div class="s-val">4</div><div class="s-label">Périmés</div></div>
-            <div class="stat-card orange"><div class="s-val">8</div><div class="s-label">Alertes</div></div>
-          </div>
-          <div class="mock-table">
-            <div class="mt-head">
-              <span>Document</span><span>Service</span><span>DUA</span><span>Statut</span>
-            </div>
-            <div class="mt-row"><span class="doc">DOC-2026-041</span><span>DRH</span><span>5 ans</span><span><span class="badge-sm pending">En attente</span></span></div>
-            <div class="mt-row"><span class="doc">DOC-2026-039</span><span>Compta</span><span>10 ans</span><span><span class="badge-sm valid">Validé</span></span></div>
-            <div class="mt-row"><span class="doc">DOC-2026-037</span><span>Direction</span><span>C</span><span><span class="badge-sm valid">Validé</span></span></div>
-            <div class="mt-row"><span class="doc">DOC-2026-035</span><span>DRH</span><span>3 ans</span><span><span class="badge-sm pending">En attente</span></span></div>
-          </div>
-        </div>
-      </div>
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-contenu">
+    <h1>LIKOAM</h1>
+    <p class="hero-sub">Système de Gestion d'Archives Numériques</p>
+    <p class="hero-desc">LIKOAM simplifie le versement, la conservation et le suivi des documents pour les organisations africaines à moyens limités. Accessible depuis n'importe quel navigateur, sans infrastructure complexe.</p>
+    <div class="hero-btns">
+      <a href="#contact" class="btn-primary"><i class="fa-solid fa-paper-plane"></i> &nbsp;Demander un accès démo</a>
+      <a href="#fonctionnalites" class="btn-outline"><i class="fa-solid fa-list"></i> &nbsp;Découvrir les fonctionnalités</a>
     </div>
   </div>
 </section>
 
-<!-- ── POURQUOI ──────────────────────────────────────────────────────────────── -->
-<section class="why-section" id="pourquoi">
+<!-- POURQUOI LIKOAM -->
+<section id="pourquoi">
   <div class="section-inner">
     <div class="why-grid">
-      <div class="why-text reveal">
+      <div>
         <div class="section-tag">Pourquoi LIKOAM</div>
-        <h2 class="section-title">La gestion d'archives,<br><span class="it">enfin accessible</span></h2>
-        <p class="section-desc">Dans de nombreuses organisations africaines, la gestion documentaire repose encore sur des registres papier, des classeurs mal indexés ou des fichiers dispersés. LIKOAM change la donne.</p>
+        <h2 class="section-title">La gestion d'archives, enfin accessible</h2>
+        <p class="section-desc">Dans de nombreuses organisations africaines, la gestion documentaire repose encore sur des registres papier ou des fichiers dispersés. LIKOAM change la donne.</p>
         <div class="problem-list">
           <div class="problem-item">
-            <span class="problem-icon">📁</span>
-            <div class="problem-text">
-              <strong>Documents introuvables</strong>
-              <span>Des heures perdues à chercher un acte, un contrat, un rapport dans des classeurs non structurés.</span>
-            </div>
+            <span class="problem-icon"><i class="fa-solid fa-folder-open"></i></span>
+            <div class="problem-text"><strong>Documents introuvables</strong><span>Des heures perdues à chercher un acte ou un contrat dans des classeurs non structurés.</span></div>
           </div>
           <div class="problem-item">
-            <span class="problem-icon">⏳</span>
-            <div class="problem-text">
-              <strong>Aucun suivi des échéances</strong>
-              <span>Documents conservés indéfiniment ou détruits par erreur, faute de calcul des durées de conservation.</span>
-            </div>
+            <span class="problem-icon"><i class="fa-solid fa-clock"></i></span>
+            <div class="problem-text"><strong>Aucun suivi des échéances</strong><span>Documents conservés indéfiniment ou détruits par erreur, faute de calcul des durées de conservation.</span></div>
           </div>
           <div class="problem-item">
-            <span class="problem-icon">🔒</span>
-            <div class="problem-text">
-              <strong>Pas de traçabilité</strong>
-              <span>Impossible de savoir qui a versé quoi, quand, et quel sort a été réservé à un document.</span>
-            </div>
+            <span class="problem-icon"><i class="fa-solid fa-lock"></i></span>
+            <div class="problem-text"><strong>Pas de traçabilité</strong><span>Impossible de savoir qui a versé quoi, quand, et quel sort a été réservé à un document.</span></div>
           </div>
           <div class="problem-item">
-            <span class="problem-icon">💰</span>
-            <div class="problem-text">
-              <strong>Solutions trop coûteuses</strong>
-              <span>Les logiciels professionnels existants sont hors de portée des organisations à budget limité.</span>
-            </div>
+            <span class="problem-icon"><i class="fa-solid fa-coins"></i></span>
+            <div class="problem-text"><strong>Solutions trop coûteuses</strong><span>Les logiciels professionnels existants sont hors de portée des organisations à budget limité.</span></div>
           </div>
         </div>
       </div>
-
-      <div class="why-stats reveal">
+      <div class="why-stats">
         <div class="big-stat">
           <div class="stat-num">80%</div>
-          <p class="stat-desc">des organisations d'Afrique subsaharienne n'ont pas de système de gestion d'archives structuré selon les études sur la gouvernance documentaire.</p>
+          <p class="stat-desc">des organisations d'Afrique subsaharienne n'ont pas de système de gestion d'archives structuré.</p>
         </div>
         <div class="small-stats">
-          <div class="small-stat">
-            <div class="n">3×<span>+</span></div>
-            <p>Gain de temps estimé sur la recherche documentaire</p>
-          </div>
-          <div class="small-stat">
-            <div class="n"><span>0</span></div>
-            <p>Infrastructure supplémentaire requise — fonctionne avec Google Drive</p>
-          </div>
-          <div class="small-stat">
-            <div class="n">100<span>%</span></div>
-            <p>Accessible depuis n'importe quel navigateur web</p>
-          </div>
-          <div class="small-stat">
-            <div class="n"><span>∞</span></div>
-            <p>Catégories et services configurables selon votre organisation</p>
-          </div>
+          <div class="small-stat"><div class="n">3×<span>+</span></div><p>Gain de temps estimé sur la recherche documentaire</p></div>
+          <div class="small-stat"><div class="n"><span>0</span></div><p>Infrastructure supplémentaire requise — fonctionne avec Google Drive</p></div>
+          <div class="small-stat"><div class="n">100<span>%</span></div><p>Accessible depuis n'importe quel navigateur web</p></div>
+          <div class="small-stat"><div class="n">∞</div><p>Catégories et services configurables selon votre organisation</p></div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ── PUBLIC CIBLE ──────────────────────────────────────────────────────────── -->
-<section class="audience-section" id="public">
+<!-- PUBLIC CIBLE -->
+<section id="public">
   <div class="section-inner">
-    <div style="text-align:center;" class="reveal">
+    <div style="text-align:center;">
       <div class="section-tag">Public cible</div>
-      <h2 class="section-title">Conçu pour <span class="it">qui ?</span></h2>
-      <p class="section-desc" style="margin:0 auto;">LIKOAM s'adresse à toute structure qui produit et conserve des documents officiels, sans disposer d'une DSI ou d'un budget logiciel important.</p>
+      <h2 class="section-title">Conçu pour qui ?</h2>
+      <p class="section-desc" style="margin:0 auto 48px;">LIKOAM s'adresse à toute structure qui produit et conserve des documents officiels, sans disposer d'une DSI ou d'un budget logiciel important.</p>
     </div>
     <div class="audience-grid">
-      <div class="audience-card reveal">
-        <div class="aud-icon">🏛️</div>
-        <div class="aud-title">Administrations publiques</div>
-        <p class="aud-desc">Mairies, préfectures, ministères, services déconcentrés. LIKOAM répond aux exigences de traçabilité et de conservation réglementaire des archives publiques.</p>
-        <div class="aud-tags">
-          <span class="aud-tag">Archives réglementaires</span>
-          <span class="aud-tag">Traçabilité</span>
-          <span class="aud-tag">Multi-services</span>
-        </div>
-      </div>
-      <div class="audience-card reveal">
-        <div class="aud-icon">🏢</div>
-        <div class="aud-title">ONG & Associations</div>
-        <p class="aud-desc">Organisations de la société civile, projets de développement. Centralisation des rapports, contrats, documents de projet pour les bailleurs et les audits.</p>
-        <div class="aud-tags">
-          <span class="aud-tag">Rapports bailleurs</span>
-          <span class="aud-tag">Audit</span>
-          <span class="aud-tag">Gouvernance</span>
-        </div>
-      </div>
-      <div class="audience-card reveal">
-        <div class="aud-icon">🎓</div>
-        <div class="aud-title">Établissements d'enseignement</div>
-        <p class="aud-desc">Universités, lycées, centres de formation. Gestion des dossiers étudiants, actes administratifs, archives pédagogiques avec suivi des durées légales.</p>
-        <div class="aud-tags">
-          <span class="aud-tag">Dossiers étudiants</span>
-          <span class="aud-tag">Actes</span>
-          <span class="aud-tag">DUA légale</span>
-        </div>
-      </div>
-      <div class="audience-card reveal">
-        <div class="aud-icon">🏥</div>
-        <div class="aud-title">Structures sanitaires</div>
-        <p class="aud-desc">Hôpitaux, cliniques, centres de santé. Archivage des documents administratifs et réglementaires dans le respect des durées de conservation en vigueur.</p>
-        <div class="aud-tags">
-          <span class="aud-tag">Archives admin</span>
-          <span class="aud-tag">Conformité</span>
-        </div>
-      </div>
-      <div class="audience-card reveal">
-        <div class="aud-icon">⚖️</div>
-        <div class="aud-title">Cabinets juridiques & notariaux</div>
-        <p class="aud-desc">Gestion rigoureuse des actes, contrats et dossiers clients avec traçabilité complète des accès et des opérations réalisées sur chaque document.</p>
-        <div class="aud-tags">
-          <span class="aud-tag">Actes notariaux</span>
-          <span class="aud-tag">Traçabilité</span>
-        </div>
-      </div>
-      <div class="audience-card reveal">
-        <div class="aud-icon">🤝</div>
-        <div class="aud-title">Partenaires & Bailleurs</div>
-        <p class="aud-desc">Institutions de financement, agences de coopération souhaitant doter leurs partenaires locaux d'un outil de gouvernance documentaire fiable et pérenne.</p>
-        <div class="aud-tags">
-          <span class="aud-tag">Coopération</span>
-          <span class="aud-tag">Renforcement capacités</span>
-        </div>
-      </div>
+      <div class="audience-card"><span class="aud-icon">🏛️</span><div class="aud-title">Administrations publiques</div><p class="aud-desc">Mairies, préfectures, ministères. LIKOAM répond aux exigences de traçabilité et de conservation réglementaire.</p><div class="aud-tags"><span class="aud-tag">Archives réglementaires</span><span class="aud-tag">Multi-services</span></div></div>
+      <div class="audience-card"><span class="aud-icon">🏢</span><div class="aud-title">ONG & Associations</div><p class="aud-desc">Centralisation des rapports, contrats et documents de projet pour les bailleurs et les audits.</p><div class="aud-tags"><span class="aud-tag">Rapports bailleurs</span><span class="aud-tag">Gouvernance</span></div></div>
+      <div class="audience-card"><span class="aud-icon">🎓</span><div class="aud-title">Établissements d'enseignement</div><p class="aud-desc">Gestion des dossiers étudiants et archives pédagogiques avec suivi des durées légales.</p><div class="aud-tags"><span class="aud-tag">Dossiers étudiants</span><span class="aud-tag">DUA légale</span></div></div>
+      <div class="audience-card"><span class="aud-icon">🏥</span><div class="aud-title">Structures sanitaires</div><p class="aud-desc">Archivage des documents administratifs dans le respect des durées de conservation.</p><div class="aud-tags"><span class="aud-tag">Archives admin</span><span class="aud-tag">Conformité</span></div></div>
+      <div class="audience-card"><span class="aud-icon">⚖️</span><div class="aud-title">Cabinets juridiques</div><p class="aud-desc">Gestion rigoureuse des actes et contrats avec traçabilité complète des accès.</p><div class="aud-tags"><span class="aud-tag">Actes notariaux</span><span class="aud-tag">Traçabilité</span></div></div>
+      <div class="audience-card"><span class="aud-icon">🤝</span><div class="aud-title">Partenaires & Bailleurs</div><p class="aud-desc">Institutions souhaitant doter leurs partenaires locaux d'un outil de gouvernance documentaire fiable.</p><div class="aud-tags"><span class="aud-tag">Coopération</span><span class="aud-tag">Renforcement capacités</span></div></div>
     </div>
   </div>
 </section>
 
-<!-- ── FONCTIONNALITÉS ───────────────────────────────────────────────────────── -->
-<section class="features-section" id="fonctionnalites">
+<!-- FONCTIONNALITÉS -->
+<section id="fonctionnalites">
   <div class="section-inner">
-    <div class="reveal">
+    <div style="text-align:center;">
       <div class="section-tag">Fonctionnalités</div>
-      <h2 class="section-title">Tout ce dont vous <span class="it">avez besoin</span></h2>
-      <p class="section-desc">Un écosystème complet pour gérer l'intégralité du cycle de vie de vos archives — du versement à la destruction, en passant par la validation et la conservation.</p>
+      <h2 class="section-title">Tout ce dont vous avez besoin</h2>
+      <p class="section-desc" style="margin:0 auto;">Un écosystème complet pour gérer l'intégralité du cycle de vie de vos archives.</p>
     </div>
-
-    <div class="features-grid" style="margin-top:48px;">
-      <div class="feat-card reveal">
-        <div class="feat-icon">📤</div>
-        <div class="feat-title">Versement documentaire</div>
-        <p class="feat-desc">Déposez vos documents en quelques clics. Classement automatique sur Google Drive, numérotation DOC-AAAA-XXX générée instantanément.</p>
-        <span class="feat-tag">Agent & Admin</span>
-      </div>
-      <div class="feat-card reveal">
-        <div class="feat-icon">⏱️</div>
-        <div class="feat-title">Calcul automatique des DUA</div>
-        <p class="feat-desc">La durée d'utilité administrative et la date d'élimination sont calculées dès la validation, selon les règles définies par catégorie.</p>
-        <span class="feat-tag">Automatique</span>
-      </div>
-      <div class="feat-card reveal">
-        <div class="feat-icon">✅</div>
-        <div class="feat-title">Validation & cycle de vie</div>
-        <p class="feat-desc">Workflow de validation réservé aux administrateurs. Trois actions irréversibles sur les documents : Valider, Trier, Détruire.</p>
-        <span class="feat-tag">Admin</span>
-      </div>
-      <div class="feat-card reveal">
-        <div class="feat-icon">📊</div>
-        <div class="feat-title">Tableau de bord temps réel</div>
-        <p class="feat-desc">Vue synthétique : total, documents à valider, périmés, alertes à 30 jours. Accès direct aux listes par indicateur.</p>
-        <span class="feat-tag">Admin</span>
-      </div>
-      <div class="feat-card reveal">
-        <div class="feat-icon">🔍</div>
-        <div class="feat-title">Recherche multicritère</div>
-        <p class="feat-desc">Filtrez par numéro, titre, date, service, catégorie ou statut. Accès direct au fichier sur Google Drive depuis les résultats.</p>
-        <span class="feat-tag">Agent & Admin</span>
-      </div>
-      <div class="feat-card reveal">
-        <div class="feat-icon">🗂️</div>
-        <div class="feat-title">Gestion des archives</div>
-        <p class="feat-desc">Historique complet des documents validés avec sort final (D / T / C), filtres par échéance et exemple pratique intégré.</p>
-        <span class="feat-tag">Admin</span>
-      </div>
-      <div class="feat-card reveal">
-        <div class="feat-icon">📋</div>
-        <div class="feat-title">Bordereaux automatiques</div>
-        <p class="feat-desc">Génération automatique de bordereaux de versement et d'élimination. Impression en PDF depuis le navigateur en un clic.</p>
-        <span class="feat-tag">Automatique</span>
-      </div>
-      <div class="feat-card reveal">
-        <div class="feat-icon">👥</div>
-        <div class="feat-title">Gestion des agents</div>
-        <p class="feat-desc">Créez des comptes, attribuez des rôles (Agent / Admin), activez ou désactivez les accès. Code agent généré automatiquement.</p>
-        <span class="feat-tag">Admin</span>
-      </div>
-      <div class="feat-card reveal">
-        <div class="feat-icon">⚙️</div>
-        <div class="feat-title">Configuration libre</div>
-        <p class="feat-desc">Créez vos propres services et catégories documentaires avec leur DUA et sort final. Immédiatement disponibles dans tout le système.</p>
-        <span class="feat-tag">Admin</span>
-      </div>
+    <div class="features-grid">
+      <div class="feat-card"><div class="feat-icon"><i class="fa-solid fa-file-arrow-up"></i></div><div class="feat-title">Versement documentaire</div><p class="feat-desc">Déposez vos documents en quelques clics. Classement automatique sur Google Drive, numérotation DOC-AAAA-XXX générée instantanément.</p><span class="feat-tag">Agent & Admin</span></div>
+      <div class="feat-card"><div class="feat-icon"><i class="fa-solid fa-clock"></i></div><div class="feat-title">Calcul automatique des DUA</div><p class="feat-desc">La durée d'utilité administrative et la date d'élimination sont calculées dès la validation selon les règles définies.</p><span class="feat-tag">Automatique</span></div>
+      <div class="feat-card"><div class="feat-icon"><i class="fa-solid fa-circle-check"></i></div><div class="feat-title">Validation & cycle de vie</div><p class="feat-desc">Workflow de validation réservé aux administrateurs. Trois actions sur les documents : Valider, Trier, Détruire.</p><span class="feat-tag">Admin</span></div>
+      <div class="feat-card"><div class="feat-icon"><i class="fa-solid fa-magnifying-glass"></i></div><div class="feat-title">Recherche avancée</div><p class="feat-desc">Retrouvez n'importe quel document par titre, date, catégorie, service ou statut en quelques secondes.</p><span class="feat-tag">Tous les agents</span></div>
+      <div class="feat-card"><div class="feat-icon"><i class="fa-solid fa-chart-line"></i></div><div class="feat-title">Tableau de bord</div><p class="feat-desc">Suivez en temps réel l'état de vos archives avec des alertes automatiques sur les périmés et les échéances.</p><span class="feat-tag">Temps réel</span></div>
+      <div class="feat-card"><div class="feat-icon"><i class="fa-solid fa-users"></i></div><div class="feat-title">Multi-utilisateurs</div><p class="feat-desc">Plusieurs agents peuvent travailler simultanément avec des droits différenciés. Gestion des accès depuis un panneau dédié.</p><span class="feat-tag">Admin</span></div>
     </div>
   </div>
 </section>
 
-<!-- ── DÉMO ──────────────────────────────────────────────────────────────────── -->
-<section class="demo-section" id="demo">
+<!-- COMMENT ÇA MARCHE -->
+<section id="comment">
   <div class="section-inner">
-    <div class="demo-layout">
-      <!-- Captures d'écran réelles -->
-      <div class="reveal" style="display:flex;flex-direction:column;gap:16px;">
-        <div style="border-radius:12px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,.15);border:1px solid var(--border);">
-          <img src="https://raw.githubusercontent.com/Vmonne/vmonne.github.io/main/Capture%20d'%C3%A9cran%202026-03-03%20102529.png" alt="Tableau de bord LIKOAM" style="width:100%;display:block;"/>
-        </div>
-        <div style="border-radius:12px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,.15);border:1px solid var(--border);">
-          <img src="https://raw.githubusercontent.com/Vmonne/vmonne.github.io/main/Capture%20d'%C3%A9cran%202026-03-03%20111003.png" alt="Versement LIKOAM" style="width:100%;display:block;"/>
-        </div>
-        <div style="border-radius:12px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,.15);border:1px solid var(--border);">
-          <img src="https://raw.githubusercontent.com/Vmonne/vmonne.github.io/main/Capture%20d'%C3%A9cran%202026-03-03%20111235.png" alt="Recherche LIKOAM" style="width:100%;display:block;"/>
-        </div>
-        <div style="border-radius:12px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,.15);border:1px solid var(--border);">
-          <img src="https://raw.githubusercontent.com/Vmonne/vmonne.github.io/main/Capture%20d'%C3%A9cran%202026-03-03%20111849.png" alt="Administration LIKOAM" style="width:100%;display:block;"/>
-        </div>
+    <div style="text-align:center;">
+      <div class="section-tag">Comment ça marche</div>
+      <h2 class="section-title">Simple dès le premier jour</h2>
+      <p class="section-desc" style="margin:0 auto 48px;">En quatre étapes simples, LIKOAM vous accompagne dans la gestion complète de vos archives numériques.</p>
+    </div>
+    <div class="etapes">
+      <div class="etape">
+        <div class="etape-numero">1</div>
+        <h3>Tableau de bord</h3>
+        <p>Visualisez en temps réel l'état de vos archives et les actions à traiter.</p>
+        <img src="https://raw.githubusercontent.com/Vmonne/vmonne.github.io/main/Capture%20d'%C3%A9cran%202026-03-03%20102529.png" alt="Tableau de bord LIKOAM"/>
       </div>
-
-      <!-- Steps -->
-      <div class="demo-desc reveal">
-        <div class="section-tag">Comment ça marche</div>
-        <h2 class="section-title" style="margin-bottom:28px;">Simple à utiliser,<br><span class="it">dès le premier jour</span></h2>
-        <div class="demo-step">
-          <div class="demo-step-num">1</div>
-          <div class="demo-step-text">
-            <strong>Connexion avec votre code agent</strong>
-            <span>Accédez à LIKOAM depuis votre navigateur. Aucune installation, aucun téléchargement requis.</span>
-          </div>
-        </div>
-        <div class="demo-step">
-          <div class="demo-step-num">2</div>
-          <div class="demo-step-text">
-            <strong>Versez votre document</strong>
-            <span>Renseignez le titre, sélectionnez la catégorie, déposez le fichier. LIKOAM classe automatiquement sur Google Drive.</span>
-          </div>
-        </div>
-        <div class="demo-step">
-          <div class="demo-step-num">3</div>
-          <div class="demo-step-text">
-            <strong>L'administrateur valide</strong>
-            <span>La DUA et la date d'élimination sont calculées automatiquement. Le document intègre officiellement le registre.</span>
-          </div>
-        </div>
-        <div class="demo-step">
-          <div class="demo-step-num">4</div>
-          <div class="demo-step-text">
-            <strong>Suivi et traitement en continu</strong>
-            <span>Le tableau de bord alerte sur les périmés et les échéances proches. Tri, conservation ou destruction en un clic.</span>
-          </div>
-        </div>
-        <a href="#contact" class="demo-cta">Tester LIKOAM →</a>
+      <div class="etape">
+        <div class="etape-numero">2</div>
+        <h3>Versement</h3>
+        <p>Versez vos documents en quelques clics. Le classement est automatique sur Google Drive.</p>
+        <img src="https://raw.githubusercontent.com/Vmonne/vmonne.github.io/main/Capture%20d'%C3%A9cran%202026-03-03%20111235.png" alt="Versement LIKOAM"/>
+      </div>
+      <div class="etape">
+        <div class="etape-numero">3</div>
+        <h3>Recherche</h3>
+        <p>Retrouvez instantanément n'importe quel document par date, catégorie ou statut.</p>
+        <img src="https://raw.githubusercontent.com/Vmonne/vmonne.github.io/main/Capture%20d'%C3%A9cran%202026-03-03%20111003.png" alt="Recherche LIKOAM"/>
+      </div>
+      <div class="etape">
+        <div class="etape-numero">4</div>
+        <h3>Administration</h3>
+        <p>Gérez les comptes agents et leurs droits d'accès depuis un panneau dédié.</p>
+        <img src="https://raw.githubusercontent.com/Vmonne/vmonne.github.io/main/Capture%20d'%C3%A9cran%202026-03-03%20111849.png" alt="Administration LIKOAM"/>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ── CONTACT ───────────────────────────────────────────────────────────────── -->
-<section class="contact-section" id="contact">
-  <div class="section-inner">
-    <div class="contact-grid">
-      <div class="reveal">
-        <div class="section-tag">Contact</div>
-        <h2 class="section-title">Rejoignez<br><span class="it">l'aventure</span></h2>
-        <p class="section-desc">Vous souhaitez tester LIKOAM, déployer la solution dans votre organisation ou discuter d'un partenariat ? Contactez-nous.</p>
-        <div class="contact-infos">
-          <div class="contact-info">
-            <span class="ci-icon">📧</span>
-            <div>
-              <div class="ci-label">Email</div>
-              <div class="ci-val"><a href="/cdn-cgi/l/email-protection#5b373230343a363a293833322d3e281b3c363a323775383436"><span class="__cf_email__" data-cfemail="fd919496929c909c8f9e95948b988ebd9a909c9491d39e9290">[email&#160;protected]</span></a></div>
-            </div>
-          </div>
-          <div class="contact-info">
-            <span class="ci-icon">🌍</span>
-            <div>
-              <div class="ci-label">Zone géographique</div>
-              <div class="ci-val" style="color:rgba(255,255,255,.7);">Afrique subsaharienne — déploiement international possible</div>
-            </div>
-          </div>
-          <div class="contact-info">
-            <span class="ci-icon">🔖</span>
-            <div>
-              <div class="ci-label">Version actuelle</div>
-              <div class="ci-val" style="color:rgba(255,255,255,.7);">0.1 — Phase de test · Déploiement 2026</div>
-            </div>
-          </div>
-        </div>
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-grid">
+    <div class="contact-left">
+      <h2>Contactez-nous</h2>
+      <p>Vous souhaitez tester LIKOAM, déployer la solution dans votre organisation ou discuter d'un partenariat ? Nous sommes disponibles.</p>
+      <div class="contact-infos">
+        <div class="contact-info"><i class="fa-solid fa-envelope"></i><a href="mailto:likoamarchives@gmail.com">likoamarchives@gmail.com</a></div>
+        <div class="contact-info"><i class="fa-solid fa-globe"></i><a href="https://victorinemonne.com">victorinemonne.com</a></div>
+        <div class="contact-info"><i class="fa-solid fa-location-dot"></i><span>Afrique subsaharienne — déploiement international possible</span></div>
+        <div class="contact-info"><i class="fa-solid fa-code-branch"></i><span>Version actuelle : 0.1</span></div>
       </div>
-
-      <div class="contact-form reveal">
-        <div class="form-title">Demande d'accès ou contact</div>
-        <div id="contactFormWrap">
-          <div class="form-row">
-            <div class="form-group">
-              <label>Nom *</label>
-              <input type="text" placeholder="Votre nom" id="fname">
-            </div>
-            <div class="form-group">
-              <label>Organisation *</label>
-              <input type="text" placeholder="Votre organisation" id="forg">
-            </div>
-          </div>
-          <div class="form-group">
-            <label>Email *</label>
-            <input type="email" placeholder="votre@email.com" id="femail">
-          </div>
-          <div class="form-group">
-            <label>Type de demande</label>
-            <select id="ftype">
-              <option value="">Sélectionnez...</option>
-              <option>Demande d'accès démo</option>
-              <option>Déploiement dans mon organisation</option>
-              <option>Partenariat / Financement</option>
-              <option>Question générale</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Message</label>
-            <textarea placeholder="Décrivez votre besoin ou votre question…" id="fmsg"></textarea>
-          </div>
-          <button class="form-submit" onclick="submitForm()">Envoyer la demande →</button>
+    </div>
+    <div class="contact-form">
+      <div class="form-title">Demande d'accès</div>
+      <div id="contactFormWrap">
+        <div class="form-row">
+          <div class="form-group"><label>Nom *</label><input type="text" placeholder="Votre nom" id="fname"/></div>
+          <div class="form-group"><label>Organisation *</label><input type="text" placeholder="Votre organisation" id="forg"/></div>
         </div>
-        <div class="form-success" id="formSuccess">
-          <div class="fs-icon">✅</div>
-          <p>Merci pour votre message !<br>L'équipe LIKOAM vous répondra dans les meilleurs délais à l'adresse indiquée.<br><br><strong style="color:var(--gold);"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="402c292b2f212d213223282936253300272d21292c6e232f2d">[email&#160;protected]</a></strong></p>
+        <div class="form-group"><label>Email *</label><input type="email" placeholder="votre@email.com" id="femail"/></div>
+        <div class="form-group">
+          <label>Type de demande</label>
+          <select id="ftype">
+            <option value="">Sélectionnez...</option>
+            <option>Demande d'accès démo</option>
+            <option>Déploiement dans mon organisation</option>
+            <option>Partenariat / Financement</option>
+            <option>Question générale</option>
+          </select>
         </div>
+        <div class="form-group"><label>Message</label><textarea placeholder="Décrivez votre besoin ou votre question…" id="fmsg"></textarea></div>
+        <button class="form-submit" onclick="submitForm()"><i class="fa-solid fa-paper-plane"></i> &nbsp;Envoyer la demande</button>
+      </div>
+      <div class="form-success" id="formSuccess">
+        <div class="fs-icon">✅</div>
+        <p>Merci pour votre message !<br>L'équipe LIKOAM vous répondra dans les meilleurs délais.<br><br><strong style="color:var(--gold);">likoamarchives@gmail.com</strong></p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ── FOOTER ─────────────────────────────────────────────────────────────────── -->
+<!-- FOOTER -->
 <footer>
-  <div class="footer-inner">
-    <div class="footer-top">
-      <div class="footer-brand">
-        <div class="fl">LIKO<span>AM</span></div>
-        <p>Système de Gestion d'Archives Numériques. Conçu pour les organisations à moyens limités.</p>
-      </div>
-      <div class="footer-links">
-        <div class="footer-col">
-          <h4>Navigation</h4>
-          <a href="#pourquoi">Pourquoi LIKOAM</a>
-          <a href="#public">Public cible</a>
-          <a href="#fonctionnalites">Fonctionnalités</a>
-          <a href="#demo">Comment ça marche</a>
-        </div>
-        <div class="footer-col">
-          <h4>Ressources</h4>
-          <a href="#">Manuel d'utilisation</a>
-          <a href="#">Formulaire de test</a>
-          <a href="#contact">Demander un accès</a>
-          <a href="#contact">Partenariat</a>
-        </div>
-        <div class="footer-col">
-          <h4>Contact</h4>
-          <a href="/cdn-cgi/l/email-protection#563a3f3d39373b3724353e3f20332516313b373f3a7835393b"><span class="__cf_email__" data-cfemail="87ebeeece8e6eae6f5e4efeef1e2f4c7e0eae6eeeba9e4e8ea">[email&#160;protected]</span></a>
-        </div>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <p>© 2026 LIKOAM — Tous droits réservés</p>
-      <span class="version">v0.1</span>
-    </div>
-  </div>
+  <p>© 2026 LIKOAM — Tous droits réservés</p>
+  <p>Système de Gestion d'Archives Numériques — Conçu par <a href="https://victorinemonne.com">Victorine Monné</a></p>
 </footer>
 
 <script>
-// ── Scroll reveal ─────────────────────────────────────────────────────────────
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
-}, { threshold: 0.1 });
-document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-// ── Nav scroll effect ─────────────────────────────────────────────────────────
-window.addEventListener('scroll', () => {
-  const nav = document.getElementById('mainNav');
-  nav.style.background = window.scrollY > 40
-    ? 'rgba(15,23,42,.98)'
-    : 'rgba(15,23,42,.92)';
-});
-
-// ── Smooth anchor ─────────────────────────────────────────────────────────────
-document.querySelectorAll('a[href^="#"]').forEach(a => {
-  a.addEventListener('click', e => {
-    const target = document.querySelector(a.getAttribute('href'));
-    if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
-  });
-});
-
-// ── Form submit ───────────────────────────────────────────────────────────────
-function submitForm() {
-  const name  = document.getElementById('fname').value.trim();
-  const email = document.getElementById('femail').value.trim();
-  const org   = document.getElementById('forg').value.trim();
-  if (!name || !email || !org) {
-    alert('Veuillez renseigner votre nom, votre organisation et votre email.');
-    return;
-  }
-  document.getElementById('contactFormWrap').style.display = 'none';
-  document.getElementById('formSuccess').style.display = 'block';
+function toggleMenu(){
+  document.getElementById('menu').classList.toggle('ouvert');
 }
 
-// ── Mobile menu ───────────────────────────────────────────────────────────────
-function toggleMenu() {
-  // Simple
+// Formspree handler
+var form = document.getElementById('contactFormWrap');
+if(form) {
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    var data = new FormData(form);
+    fetch('https://formspree.io/f/mjgpdeej', {
+      method: 'POST',
+      body: data,
+      headers: { 'Accept': 'application/json' }
+    }).then(function(response) {
+      if(response.ok) {
+        form.style.display = 'none';
+        document.getElementById('formSuccess').style.display = 'block';
+      } else {
+        alert('Une erreur est survenue. Veuillez réessayer ou nous contacter par email.');
+      }
+    }).catch(function() {
+      alert('Une erreur est survenue. Veuillez réessayer ou nous contacter par email.');
+    });
+  });
+}
+</script>
+</body>
+</html>
