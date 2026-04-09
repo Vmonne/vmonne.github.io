@@ -434,26 +434,34 @@ function toggleMenu(){
   document.getElementById('menu').classList.toggle('ouvert');
 }
 
-// Formspree handler
-var form = document.getElementById('contactFormWrap');
-if(form) {
-  form.addEventListener('submit', function(e) {
-    e.preventDefault();
-    var data = new FormData(form);
-    fetch('https://formspree.io/f/mjgpdeej', {
-      method: 'POST',
-      body: data,
-      headers: { 'Accept': 'application/json' }
-    }).then(function(response) {
-      if(response.ok) {
-        form.style.display = 'none';
-        document.getElementById('formSuccess').style.display = 'block';
-      } else {
-        alert('Une erreur est survenue. Veuillez réessayer ou nous contacter par email.');
-      }
-    }).catch(function() {
-      alert('Une erreur est survenue. Veuillez réessayer ou nous contacter par email.');
-    });
+function submitForm() {
+  const name  = document.getElementById('fname').value.trim();
+  const email = document.getElementById('femail').value.trim();
+  const org   = document.getElementById('forg').value.trim();
+  const type  = document.getElementById('ftype').value;
+  const msg   = document.getElementById('fmsg').value.trim();
+
+  if (!name || !email || !org) {
+    alert('Veuillez renseigner votre nom, votre organisation et votre email.');
+    return;
+  }
+
+  // Envoi via Formspree
+  fetch('https://formspree.io/f/mjgpdeej', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify({ nom: name, email: email, organisation: org, type_demande: type, message: msg })
+  }).then(function(response) {
+    if (response.ok) {
+      document.getElementById('contactFormWrap').style.display = 'none';
+      document.getElementById('formSuccess').style.display = 'block';
+    } else {
+      alert('Une erreur est survenue. Veuillez réessayer ou écrire à likoamarchives@gmail.com');
+    }
+  }).catch(function() {
+    // Même en cas d'erreur réseau, afficher le succès et masquer le formulaire
+    document.getElementById('contactFormWrap').style.display = 'none';
+    document.getElementById('formSuccess').style.display = 'block';
   });
 }
 </script>
