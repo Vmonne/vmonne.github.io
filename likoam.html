@@ -511,12 +511,46 @@ footer a:hover{color:var(--gold);}
     </div>
   </div>
 </section>
-
-  <footer>
+<footer>
   <p>© 2026 LIKOAM — Tous droits réservés</p>
   <p>Système de Gestion d'Archives Numériques — Conçu par <a href="https://victorinemonne.com">Victorine Monné</a></p>
   <p><a href="privacy-policy.html">Politique de confidentialité</a></p>
 </footer>
+
+<script>
+function toggleMenu(){
+  document.getElementById('menu').classList.toggle('ouvert');
+}
+
+function submitForm() {
+  const name  = document.getElementById('fname').value.trim();
+  const email = document.getElementById('femail').value.trim();
+  const org   = document.getElementById('forg').value.trim();
+  const type  = document.getElementById('ftype').value;
+  const msg   = document.getElementById('fmsg').value.trim();
+
+  if (!name || !email || !org) {
+    alert('Veuillez renseigner votre nom, votre organisation et votre email.');
+    return;
+  }
+
+  fetch('https://formspree.io/f/mjgpdeej', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify({ nom: name, email: email, organisation: org, type_demande: type, message: msg })
+  }).then(function(response) {
+    if (response.ok) {
+      document.getElementById('contactFormWrap').style.display = 'none';
+      document.getElementById('formSuccess').style.display = 'block';
+    } else {
+      alert('Une erreur est survenue. Veuillez réessayer ou écrire à likoamarchives@gmail.com');
+    }
+  }).catch(function() {
+    document.getElementById('contactFormWrap').style.display = 'none';
+    document.getElementById('formSuccess').style.display = 'block';
+  });
+}
 </script>
 </body>
 </html>
+ 
