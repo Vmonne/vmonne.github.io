@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Libre Outils — Des micro-apps privées pour une gestion sans limites</title>
+<meta name="description" content="Libre Outils propose une suite de micro-applications hors-ligne pour gérer votre organisation. Sans connexion, sans abonnement, vos données vous appartiennent.">
+<meta name="keywords" content="gestion documentaire, bibliothèque, PME, associations, outils offline, hors-ligne, HTML, gestion administrative, micro-app">
+<meta name="author" content="Victorine Monné">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="Libre Outils — Vos données, votre liberté.">
+<meta property="og:description" content="Des micro-apps pratiques et hors-ligne pour gérer votre organisation. Sans abonnement, sans connexion.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://vmonne.github.io/libreoutils.html">
+<link rel="canonical" href="https://vmonne.github.io/libreoutils.html">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Raleway:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+
+:root{
+  /* Libre Outils brand */
+  --lo-violet: #7C3AED;
+  --lo-violet-light: #A78BFA;
+  --lo-cyan: #06B6D4;
+  --lo-dark: #0F172A;
+  --lo-surface: #1E1B4B;
+  --lo-bg: #F8F7FF;
+  --lo-white: #FFFFFF;
+  --lo-text: #1A1A2E;
+  --lo-muted: #64748B;
+  --lo-border: rgba(124,58,237,0.2);
+
+  /* Couleurs propres à chaque appli */
+  --doc-color: #2563EB;
+  --doc-light: rgba(37,99,235,0.08);
+  --doc-border: rgba(37,99,235,0.25);
+
+  --biblio-color: #7C3AED;
+  --biblio-light: rgba(124,58,237,0.08);
+  --biblio-border: rgba(124,58,237,0.25);
+
+  --pme-color: #8B1A2B;
+  --pme-light: rgba(139,26,43,0.08);
+  --pme-border: rgba(139,26,43,0.25);
+}
+
+body{font-family:'Raleway',sans-serif;color:var(--lo-text);background:var(--lo-white);}
+
+/* ── NAV ── */
+nav{
+  background:var(--lo-dark);
+  padding:0 48px;height:64px;
+  display:flex;justify-content:space-between;align-items:center;
+  position:sticky;top:0;z-index:100;
+  border-bottom:1px solid rgba(124,58,237,0.3);
+}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.logo-mark{
+  width:36px;height:36px;border-radius:8px;
+  background:linear-gradient(135deg,#7C3AED,#06B6D4);
+  display:flex;align-items:center;justify-content:center;
+  color:#fff;font-family:'Raleway',sans-serif;font-weight:700;font-size:16px;
+}
+.logo-text{
+  font-family:'Montserrat',sans-serif;font-size:17px;font-weight:700;
+  background:linear-gradient(90deg,#A78BFA,#06B6D4);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+nav ul{list-style:none;display:flex;gap:28px;}
+nav ul li a{color:rgba(255,255,255,.7);text-decoration:none;font-size:13px;font-weight:500;transition:color .2s;}
+nav ul li a:hover{color:#A78BFA;}
+.nav-cta{
+  background:linear-gradient(90deg,var(--lo-violet),var(--lo-cyan));
+  color:#fff !important;padding:8px 20px;border-radius:8px;font-weight:600;font-size:13px;
+}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;}
+.hamburger span{display:block;width:24px;height:2px;background:#fff;border-radius:2px;}
+#menu.ouvert{display:flex !important;}
+
+/* ── HERO ── */
+#hero{
+  background:var(--lo-dark);
+  padding:100px 48px 80px;text-align:center;
+  position:relative;overflow:hidden;
+  border-bottom:1px solid rgba(124,58,237,0.3);
+}
+#hero::before{
+  content:'';position:absolute;top:-200px;left:50%;transform:translateX(-50%);
+  width:800px;height:500px;border-radius:50%;
+  background:radial-gradient(ellipse,rgba(124,58,237,0.15) 0%,transparent 70%);
+}
+#hero::after{
+  content:'';position:absolute;bottom:-100px;right:-100px;
+  width:400px;height:400px;border-radius:50%;
+  background:radial-gradient(ellipse,rgba(6,182,212,0.1) 0%,transparent 70%);
+}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(124,58,237,0.15);border:1px solid rgba(124,58,237,0.35);
+  border-radius:20px;padding:5px 16px;
+  font-size:11px;font-weight:600;color:#A78BFA;
+  letter-spacing:1px;text-transform:uppercase;margin-bottom:24px;
+  position:relative;z-index:1;
+}
+.hero-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:#A78BFA;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.3;}}
+#hero h1{
+  font-family:'Montserrat',sans-serif;
+  font-size:clamp(32px,5vw,58px);font-weight:700;
+  color:#fff;line-height:1.15;margin-bottom:16px;
+  position:relative;z-index:1;
+}
+#hero h1 span{
+  background:linear-gradient(90deg,#A78BFA,#06B6D4);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.hero-sub{font-size:17px;color:rgba(255,255,255,.55);margin-bottom:10px;font-style:italic;position:relative;z-index:1;}
+.hero-desc{
+  font-size:15px;color:rgba(255,255,255,.45);
+  max-width:540px;margin:0 auto 40px;line-height:1.8;
+  position:relative;z-index:1;
+}
+.hero-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;position:relative;z-index:1;}
+.btn-primary{
+  display:inline-flex;align-items:center;gap:8px;
+  background:linear-gradient(90deg,var(--lo-violet),var(--lo-cyan));
+  color:#fff;padding:13px 30px;border-radius:8px;
+  text-decoration:none;font-weight:700;font-size:14px;
+  transition:all .2s;box-shadow:0 4px 20px rgba(124,58,237,0.3);
+  font-family:'Montserrat',sans-serif;
+}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(124,58,237,0.4);}
+.btn-outline{
+  display:inline-flex;align-items:center;gap:8px;
+  border:1.5px solid rgba(124,58,237,0.5);color:rgba(255,255,255,.8);
+  padding:11px 30px;border-radius:8px;
+  text-decoration:none;font-weight:600;font-size:14px;transition:all .2s;
+}
+.btn-outline:hover{border-color:#A78BFA;color:#A78BFA;}
+
+/* ── APPS GRID ── */
+#apps{background:var(--lo-bg);padding:72px 48px;border-bottom:1px solid rgba(124,58,237,0.1);}
+.apps-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:960px;margin:40px auto 0;}
+.app-card{
+  background:var(--lo-white);border:1px solid var(--lo-border);
+  border-radius:14px;padding:28px 22px;text-align:center;
+  transition:all .25s;text-decoration:none;display:block;
+  position:relative;overflow:hidden;
+}
+.app-card::before{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:3px;
+  transform:scaleX(0);transform-origin:left;transition:transform .3s;
+}
+.app-card:hover{transform:translateY(-5px);box-shadow:0 12px 32px rgba(0,0,0,.08);}
+.app-card:hover::before{transform:scaleX(1);}
+.app-card.doc::before{background:var(--doc-color);}
+.app-card.biblio::before{background:var(--biblio-color);}
+.app-card.pme::before{background:var(--pme-color);}
+.app-icon{
+  width:52px;height:52px;border-radius:14px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:22px;color:#fff;margin:0 auto 14px;
+}
+.app-icon.doc{background:linear-gradient(135deg,#2563EB,#60A5FA);}
+.app-icon.biblio{background:linear-gradient(135deg,#7C3AED,#A78BFA);}
+.app-icon.pme{background:linear-gradient(135deg,#8B1A2B,#C44B5C);}
+.app-name{font-family:'Montserrat',sans-serif;font-size:15px;font-weight:700;margin-bottom:6px;}
+.app-name.doc{color:var(--doc-color);}
+.app-name.biblio{color:var(--biblio-color);}
+.app-name.pme{color:var(--pme-color);}
+.app-desc{font-size:12px;color:var(--lo-muted);line-height:1.5;}
+
+/* ── PILIERS ── */
+#piliers{background:var(--lo-white);padding:72px 48px;}
+.piliers-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;max-width:960px;margin:40px auto 0;}
+.pilier{
+  background:var(--lo-bg);border:1px solid var(--lo-border);
+  border-radius:12px;padding:28px 22px;text-align:center;
+}
+.pilier-icon{font-size:32px;color:var(--lo-violet);margin-bottom:14px;display:block;}
+.pilier-title{font-family:'Montserrat',sans-serif;font-size:15px;font-weight:700;color:var(--lo-text);margin-bottom:8px;}
+.pilier-desc{font-size:13px;color:var(--lo-muted);line-height:1.65;}
+
+/* ── SECTION COMMUNE ── */
+.section-header{text-align:center;margin-bottom:0;}
+.section-tag{
+  display:inline-block;border-radius:20px;padding:4px 14px;
+  font-size:11px;font-weight:700;letter-spacing:1px;
+  text-transform:uppercase;margin-bottom:12px;
+}
+.section-title{
+  font-family:'Montserrat',sans-serif;
+  font-size:clamp(22px,3vw,32px);font-weight:700;
+  margin-bottom:12px;line-height:1.2;
+}
+.section-desc{font-size:15px;color:var(--lo-muted);line-height:1.8;max-width:580px;margin:0 auto;}
+
+/* ── OUTIL SECTIONS ── */
+.outil-section{padding:80px 48px;}
+.outil-section.bg-alt{background:var(--lo-bg);}
+.outil-section.bg-white{background:var(--lo-white);}
+.outil-inner{max-width:1100px;margin:0 auto;}
+.outil-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start;}
+.outil-grid.reverse{direction:rtl;}
+.outil-grid.reverse > *{direction:ltr;}
+
+/* Header outil */
+.outil-header{display:flex;align-items:center;gap:14px;margin-bottom:8px;}
+.outil-app-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;color:#fff;flex-shrink:0;}
+.outil-app-icon.doc{background:linear-gradient(135deg,#2563EB,#60A5FA);}
+.outil-app-icon.biblio{background:linear-gradient(135deg,#7C3AED,#A78BFA);}
+.outil-app-icon.pme{background:linear-gradient(135deg,#8B1A2B,#C44B5C);}
+.outil-name{font-family:'Montserrat',sans-serif;font-size:30px;font-weight:700;}
+.outil-name.doc{color:var(--doc-color);}
+.outil-name.biblio{color:var(--biblio-color);}
+.outil-name.pme{color:var(--pme-color);}
+.outil-tagline{font-size:14px;color:var(--lo-muted);font-style:italic;margin-bottom:24px;}
+
+/* PAS */
+.pas-block{margin-bottom:20px;}
+
+.pas-text{font-size:14px;color:var(--lo-text);line-height:1.75;}
+
+/* Features */
+.outil-features{display:flex;flex-direction:column;gap:10px;margin:20px 0 28px;}
+.outil-feature{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--lo-text);}
+.outil-feature i{font-size:13px;flex-shrink:0;}
+.outil-feature.doc i{color:var(--doc-color);}
+.outil-feature.biblio i{color:var(--biblio-color);}
+.outil-feature.pme i{color:var(--pme-color);}
+
+/* Bouton outil */
+.outil-btn{
+  display:inline-flex;align-items:center;gap:8px;
+  color:#fff;padding:12px 26px;border-radius:8px;
+  text-decoration:none;font-weight:700;font-size:14px;
+  transition:all .2s;font-family:'Montserrat',sans-serif;
+}
+.outil-btn:hover{transform:translateY(-1px);opacity:.9;}
+.outil-btn.doc{background:var(--doc-color);}
+.outil-btn.biblio{background:var(--biblio-color);}
+.outil-btn.pme{background:var(--pme-color);}
+
+/* Prix */
+.prix-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.25);
+  border-radius:6px;padding:5px 12px;
+  font-size:12px;font-weight:700;color:#059669;
+  margin-left:12px;vertical-align:middle;
+}
+
+/* Captures */
+.outil-screens{display:flex;flex-direction:column;gap:12px;}
+.outil-screen{
+  border-radius:10px;overflow:hidden;
+  box-shadow:0 6px 24px rgba(0,0,0,.1);
+  border:1px solid var(--lo-border);
+}
+.outil-screen img{width:100%;display:block;}
+
+/* ── CONTACT ── */
+#contact{background:var(--lo-dark);padding:72px 48px;}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start;max-width:1100px;margin:0 auto;}
+.contact-left h2{
+  font-family:'Montserrat',sans-serif;font-size:30px;font-weight:700;
+  background:linear-gradient(90deg,#A78BFA,#06B6D4);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  margin-bottom:14px;
+}
+.contact-left p{font-size:14px;color:rgba(255,255,255,.6);line-height:1.8;margin-bottom:24px;}
+.contact-infos{display:flex;flex-direction:column;gap:10px;}
+.contact-info{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.04);border:1px solid rgba(124,58,237,0.2);border-radius:8px;padding:12px 16px;}
+.contact-info i{font-size:15px;color:#A78BFA;flex-shrink:0;}
+.contact-info a,.contact-info span{color:rgba(255,255,255,.8);text-decoration:none;font-size:13px;}
+.contact-form{background:rgba(255,255,255,.04);border:1px solid rgba(124,58,237,0.25);border-radius:14px;padding:28px;}
+.form-title{font-family:'Montserrat',sans-serif;font-size:18px;font-weight:700;color:#fff;margin-bottom:20px;padding-bottom:10px;border-bottom:1px solid rgba(124,58,237,0.3);}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.form-group{margin-bottom:14px;}
+.form-group label{display:block;font-size:11px;font-weight:700;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px;}
+.form-group input,.form-group select,.form-group textarea{width:100%;background:rgba(255,255,255,.06);border:1.5px solid rgba(124,58,237,0.2);border-radius:8px;padding:10px 13px;font-size:13px;color:#fff;outline:none;transition:border-color .2s;font-family:'Raleway',sans-serif;}
+.form-group input::placeholder,.form-group textarea::placeholder{color:rgba(255,255,255,.25);}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:#A78BFA;}
+.form-group select option{background:var(--lo-dark);color:#fff;}
+.form-group textarea{resize:vertical;min-height:90px;}
+.form-submit{width:100%;background:linear-gradient(90deg,var(--lo-violet),var(--lo-cyan));color:#fff;border:none;border-radius:8px;padding:13px;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;margin-top:4px;font-family:'Montserrat',sans-serif;}
+.form-submit:hover{opacity:.9;transform:translateY(-1px);}
+.form-success{display:none;text-align:center;padding:36px 20px;}
+.form-success .fs-icon{font-size:44px;margin-bottom:12px;}
+.form-success p{color:rgba(255,255,255,.75);font-size:14px;line-height:1.6;}
+
+/* ── FOOTER ── */
+footer{background:#080E19;color:rgba(255,255,255,.35);text-align:center;padding:22px 40px;font-size:12px;line-height:2;border-top:1px solid rgba(124,58,237,0.2);}
+footer a{color:#A78BFA;text-decoration:none;}
+
+
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  .apps-grid,.piliers-grid,.payment-grid{grid-template-columns:1fr 1fr;}
+  .outil-grid,.contact-grid{grid-template-columns:1fr;}
+  .outil-grid.reverse{direction:ltr;}
+}
+@media(max-width:768px){
+  .payment-section{padding:48px 20px;}
+  .payment-grid{grid-template-columns:1fr 1fr;}
+  nav{padding:0 20px;}
+  .hamburger{display:flex;}
+  #menu{display:none;flex-direction:column;position:absolute;top:64px;left:0;right:0;background:var(--lo-dark);padding:16px 20px;gap:12px;border-bottom:1px solid rgba(124,58,237,0.2);}
+  #hero,#apps,#piliers,.outil-section,#contact{padding:56px 20px;}
+  .apps-grid,.piliers-grid{grid-template-columns:1fr;}
+  .form-row{grid-template-columns:1fr;}
+  #hero{padding-top:80px;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo">
+    <div class="logo-mark">L</div>
+    <span class="logo-text">Libre Outils</span>
+  </a>
+  <div class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+  <ul id="menu">
+    <li><a href="#apps">Nos outils</a></li>
+    <li><a href="#docmanager">DocManager</a></li>
+    <li><a href="#bibliomanager">BiblioManager</a></li>
+    <li><a href="#pmemanager">PMEManager</a></li>
+    <li><a href="paiement-packs.html">Packs</a></li><li><a href="#contact" class="nav-cta">Acheter</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-badge"><span></span>Micro-apps hors-ligne — Paiement unique</div>
+  <h1>Vos données,<br><span>votre liberté.</span></h1>
+  <p class="hero-sub">Des micro-apps privées pour une gestion sans limites</p>
+  <p class="hero-desc">Sans connexion internet. Sans abonnement mensuel. Sans accès à vos données. Juste des outils qui fonctionnent, partout, tout le temps.</p>
+  <div class="hero-btns">
+    <a href="#apps" class="btn-primary"><i class="fa-solid fa-box-open"></i> &nbsp;Voir nos outils</a>
+    <a href="#contact" class="btn-outline"><i class="fa-solid fa-shopping-cart"></i> &nbsp;Acheter maintenant</a>
+  </div>
+</section>
+
+<!-- NOS OUTILS -->
+<section id="apps">
+  <div style="max-width:1100px;margin:0 auto;text-align:center;">
+    <div class="section-tag" style="background:rgba(124,58,237,0.08);border:1px solid rgba(124,58,237,0.2);color:var(--lo-violet);">Nos applications</div>
+    <h2 class="section-title" style="color:var(--lo-text);">Une suite cohérente pour votre organisation</h2>
+    <p class="section-desc">Chaque outil est un fichier HTML autonome. Ouvrez-le dans votre navigateur — c'est prêt. Aucune installation, aucun serveur requis.</p>
+    <div class="apps-grid">
+      <a href="#docmanager" class="app-card doc">
+        <div class="app-icon doc"><i class="fa-solid fa-folder-open"></i></div>
+        <div class="app-name doc">DocManager</div>
+        <div class="app-desc">Versez, classez et suivez vos documents. Calcul automatique des durées de conservation.</div>
+      </a>
+      <a href="#bibliomanager" class="app-card biblio">
+        <div class="app-icon biblio"><i class="fa-solid fa-book"></i></div>
+        <div class="app-name biblio">BiblioManager</div>
+        <div class="app-desc">Gérez votre fonds documentaire, les prêts, les retours et les lecteurs.</div>
+      </a>
+      <a href="#pmemanager" class="app-card pme">
+        <div class="app-icon pme"><i class="fa-solid fa-building"></i></div>
+        <div class="app-name pme">PMEManager</div>
+        <div class="app-desc">Personnel, pointage, facturation et finances — tout en un seul outil.</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- 3 PILIERS -->
+<section id="piliers">
+  <div style="max-width:1100px;margin:0 auto;text-align:center;">
+    <div class="section-tag" style="background:rgba(124,58,237,0.08);border:1px solid rgba(124,58,237,0.2);color:var(--lo-violet);">Pourquoi Libre Outils</div>
+    <h2 class="section-title" style="color:var(--lo-text);">L'indépendance numérique au creux de votre main</h2>
+    <div class="piliers-grid">
+      <div class="pilier">
+        <span class="pilier-icon"><i class="fa-solid fa-wifi-slash"></i></span>
+        <div class="pilier-title">Libre de connexion</div>
+        <p class="pilier-desc">Nos outils utilisent votre navigateur et stockent vos données localement. Travaillez au bureau, en déplacement ou sans réseau — ils fonctionnent partout.</p>
+      </div>
+      <div class="pilier">
+        <span class="pilier-icon"><i class="fa-solid fa-ban"></i></span>
+        <div class="pilier-title">Libre d'abonnement</div>
+        <p class="pilier-desc">Vous payez une seule fois. L'outil vous appartient à vie. Pas de frais mensuels, pas de compte à créer, pas de surprises sur votre facture.</p>
+      </div>
+      <div class="pilier">
+        <span class="pilier-icon"><i class="fa-solid fa-lock"></i></span>
+        <div class="pilier-title">Libre de surveillance</div>
+        <p class="pilier-desc">Vos données restent sur votre appareil. Nous n'y avons jamais accès. Vos documents, vos clients et vos finances sont uniquement entre vos mains.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DOCMANAGER -->
+<section class="outil-section bg-alt" id="docmanager">
+  <div class="outil-inner">
+    <div class="outil-grid">
+      <div>
+        <div class="outil-header">
+          <div class="outil-app-icon doc"><i class="fa-solid fa-folder-open"></i></div>
+          <div>
+            <div class="outil-name doc">DocManager <span class="prix-badge"><i class="fa-solid fa-tag"></i> Licence à vie</span></div>
+          </div>
+        </div>
+        <p class="outil-tagline">Maîtrisez vos archives et libérez votre espace de travail.</p>
+
+        <div class="pas-block">
+          <p class="pas-text">Vous perdez des heures à chercher un document dans des cartons ? Vos étagères débordent de dossiers dont vous ignorez si ils ont encore une valeur légale ?</p>
+        </div>
+        <div class="pas-block">
+          <p class="pas-text">Sans système, les archives s'accumulent, les délais légaux sont ignorés, et le risque de perdre un dossier critique est permanent. Une seule erreur peut coûter cher.</p>
+        </div>
+        <div class="pas-block">
+          <p class="pas-text">DocManager numérise votre inventaire, calcule automatiquement les durées de conservation et vous alerte quand un document doit être trié, archivé ou détruit.</p>
+        </div>
+
+        <div class="outil-features">
+          <div class="outil-feature doc"><i class="fa-solid fa-check-circle"></i> Versement et classement structuré des documents</div>
+          <div class="outil-feature doc"><i class="fa-solid fa-check-circle"></i> Calcul automatique des DUA (durées d'utilité administrative)</div>
+          <div class="outil-feature doc"><i class="fa-solid fa-check-circle"></i> Alertes automatiques sur les documents à détruire ou trier</div>
+          <div class="outil-feature doc"><i class="fa-solid fa-check-circle"></i> Recherche ultra-rapide par catégorie, service ou statut</div>
+          <div class="outil-feature doc"><i class="fa-solid fa-check-circle"></i> Génération de bordereaux d'élimination et de versement</div>
+          <div class="outil-feature doc"><i class="fa-solid fa-check-circle"></i> Données stockées localement — 100% privé</div>
+        </div>
+        <a href="paiement-docmanager.html" class="outil-btn doc"><i class="fa-solid fa-shopping-cart"></i> &nbsp;Obtenir DocManager — 15 000 FCFA</a>
+        <p style="font-size:13px;color:var(--lo-muted);margin-top:12px;font-style:italic;"><i class="fa-solid fa-sliders" style="margin-right:6px;"></i>Personnalisation possible — Contactez-nous pour adapter l'outil aux besoins de votre organisation.</p>
+      </div>
+      <div class="outil-screens">
+        <div class="outil-screen">
+          <img src="https://raw.githubusercontent.com/Vmonne/vmonne.github.io/main/Capture%20d'%C3%A9cran%202026-04-09%20171532.png" alt="DocManager — tableau de bord"/>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BIBLIOMANAGER -->
+<section class="outil-section bg-white" id="bibliomanager">
+  <div class="outil-inner">
+    <div class="outil-grid reverse">
+      <div>
+        <div class="outil-header">
+          <div class="outil-app-icon biblio"><i class="fa-solid fa-book"></i></div>
+          <div>
+            <div class="outil-name biblio">BiblioManager <span class="prix-badge"><i class="fa-solid fa-tag"></i> Licence à vie</span></div>
+          </div>
+        </div>
+        <p class="outil-tagline">Gérez votre bibliothèque simplement, sans connexion.</p>
+
+        <div class="pas-block">
+          <p class="pas-text">Vos registres de prêts sont sur des cahiers qui se perdent ? Vous ignorez qui n'a pas rendu un livre, ou depuis combien de temps un ouvrage est sorti ?</p>
+        </div>
+        <div class="pas-block">
+          <p class="pas-text">Sans suivi rigoureux, les retards s'accumulent, des livres disparaissent et vos lecteurs perdent confiance dans votre organisation. Votre fonds documentaire se dégrade silencieusement.</p>
+        </div>
+        <div class="pas-block">
+          <p class="pas-text">BiblioManager centralise votre catalogue, suit chaque prêt et vous alerte sur les retards. En un clic, vous savez qui a quoi et depuis quand.</p>
+        </div>
+
+        <div class="outil-features">
+          <div class="outil-feature biblio"><i class="fa-solid fa-check-circle"></i> Catalogue complet des ouvrages et ressources</div>
+          <div class="outil-feature biblio"><i class="fa-solid fa-check-circle"></i> Gestion des prêts, retours et renouvellements</div>
+          <div class="outil-feature biblio"><i class="fa-solid fa-check-circle"></i> Alertes automatiques sur les retards en cours</div>
+          <div class="outil-feature biblio"><i class="fa-solid fa-check-circle"></i> Gestion des lecteurs et membres</div>
+          <div class="outil-feature biblio"><i class="fa-solid fa-check-circle"></i> Historique des consultations par ouvrage</div>
+          <div class="outil-feature biblio"><i class="fa-solid fa-check-circle"></i> Tableau de bord en temps réel</div>
+        </div>
+        <a href="paiement-bibliomanager.html" class="outil-btn biblio"><i class="fa-solid fa-shopping-cart"></i> &nbsp;Obtenir BiblioManager — 10 000 FCFA</a>
+        <p style="font-size:13px;color:var(--lo-muted);margin-top:12px;font-style:italic;"><i class="fa-solid fa-sliders" style="margin-right:6px;"></i>Personnalisation possible — Contactez-nous pour adapter l'outil aux besoins de votre organisation.</p>
+      </div>
+      <div class="outil-screens">
+        <div class="outil-screen">
+          <img src="https://raw.githubusercontent.com/Vmonne/vmonne.github.io/main/Capture%20d'%C3%A9cran%202026-04-09%20171652.png" alt="BiblioManager — tableau de bord"/>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PMEMANAGER -->
+<section class="outil-section bg-alt" id="pmemanager">
+  <div class="outil-inner">
+    <div class="outil-grid">
+      <div>
+        <div class="outil-header">
+          <div class="outil-app-icon pme"><i class="fa-solid fa-building"></i></div>
+          <div>
+            <div class="outil-name pme">PMEManager <span class="prix-badge"><i class="fa-solid fa-tag"></i> Licence à vie</span></div>
+          </div>
+        </div>
+        <p class="outil-tagline">Pilotez votre entreprise comme un pro, sans connexion et sans abonnement.</p>
+
+        <div class="pas-block">
+          <p class="pas-text">Qui est arrivé à l'heure ce matin ? Combien ce client vous doit-il exactement ? Comment faire une facture propre sans y passer une heure ?</p>
+        </div>
+        <div class="pas-block">
+          <p class="pas-text">Trop de patrons perdent un temps précieux avec des fichiers Excel compliqués ou des bouts de papier qui se perdent. Sans vision claire, les erreurs coûtent cher et la croissance stagne.</p>
+        </div>
+        <div class="pas-block">
+          <p class="pas-text">PMEManager centralise tout — personnel, pointage, facturation et finances — dans une seule interface sécurisée. Vous restez le maître à bord, même sans internet.</p>
+        </div>
+
+        <div class="outil-features">
+          <div class="outil-feature pme"><i class="fa-solid fa-check-circle"></i> Tableau de bord global RH et finances</div>
+          <div class="outil-feature pme"><i class="fa-solid fa-check-circle"></i> Pointage quotidien et suivi des présences</div>
+          <div class="outil-feature pme"><i class="fa-solid fa-check-circle"></i> Gestion des absences, permissions et rapports agents</div>
+          <div class="outil-feature pme"><i class="fa-solid fa-check-circle"></i> Facturation professionnelle et gestion des clients</div>
+          <div class="outil-feature pme"><i class="fa-solid fa-check-circle"></i> Suivi financier en temps réel (CA, factures, encours)</div>
+          <div class="outil-feature pme"><i class="fa-solid fa-check-circle"></i> Données locales — accès sécurisé par mot de passe</div>
+        </div>
+        <a href="paiement-pmemanager.html" class="outil-btn pme"><i class="fa-solid fa-shopping-cart"></i> &nbsp;Obtenir PMEManager — 20 000 FCFA</a>
+        <p style="font-size:13px;color:var(--lo-muted);margin-top:12px;font-style:italic;"><i class="fa-solid fa-sliders" style="margin-right:6px;"></i>Personnalisation possible — Contactez-nous pour adapter l'outil aux besoins de votre organisation.</p>
+      </div>
+      <div class="outil-screens">
+        <div class="outil-screen">
+          <img src="https://raw.githubusercontent.com/Vmonne/vmonne.github.io/main/Capture%20d'%C3%A9cran%202026-04-09%20173013.png" alt="PMEManager — tableau de bord"/>
+        </div>
+        <div class="outil-screen">
+          <img src="https://raw.githubusercontent.com/Vmonne/vmonne.github.io/main/Capture%20d'%C3%A9cran%202026-04-09%20173039.png" alt="PMEManager — gestion du personnel"/>
+        </div>
+        <div class="outil-screen">
+          <img src="https://raw.githubusercontent.com/Vmonne/vmonne.github.io/main/Capture%20d'%C3%A9cran%202026-04-09%20173120.png" alt="PMEManager — finances"/>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT / ACHAT -->
+<section id="contact">
+    <!-- SUR MESURE -->
+    <div style="max-width:1100px;margin:0 auto 56px;background:rgba(124,58,237,0.07);border:1px solid rgba(124,58,237,0.25);border-radius:16px;padding:40px 48px;text-align:center;">
+      <div style="font-size:32px;margin-bottom:16px;">🛠️</div>
+      <h3 style="font-family:'Montserrat',sans-serif;font-size:24px;font-weight:700;color:#fff;margin-bottom:12px;">Vous ne trouvez pas l'outil qu'il vous faut ?</h3>
+      <p style="font-size:15px;color:rgba(255,255,255,.65);line-height:1.8;max-width:620px;margin:0 auto 28px;">Chaque organisation a ses propres besoins. Si aucun de nos outils ne correspond exactement à votre situation, nous pouvons créer une application sur mesure pour vous — aux mêmes conditions : hors-ligne, paiement unique, vos données chez vous.</p>
+      <a href="#contact" style="display:inline-flex;align-items:center;gap:8px;background:linear-gradient(90deg,#7C3AED,#06B6D4);color:#fff;padding:13px 30px;border-radius:8px;text-decoration:none;font-weight:700;font-size:14px;font-family:'Montserrat',sans-serif;">
+        <i class="fa-solid fa-comments"></i> &nbsp;Discuter de mon projet &nbsp;<span style="animation:bounce 1.2s infinite;display:inline-block;">↓</span>
+      </a>
+      <style>
+        @keyframes bounce{0%,100%{transform:translateY(0);}50%{transform:translateY(6px);}}
+      </style>
+    </div>
+
+  <div class="contact-grid">
+    <div class="contact-left">
+      <h2>Prêt à démarrer ?</h2>
+      <p>Indiquez l'outil qui vous intéresse et nous vous répondrons rapidement avec les modalités d'achat et de livraison.</p>
+      <div class="contact-infos">
+        <div class="contact-info"><i class="fa-solid fa-shield-halved"></i><span>Paiement unique — Licence à vie</span></div>
+        <div class="contact-info"><i class="fa-solid fa-bolt"></i><span>Livraison immédiate après paiement</span></div>
+        <div class="contact-info"><i class="fa-solid fa-globe"></i><a href="https://victorinemonne.com">victorinemonne.com</a></div>
+      </div>
+    </div>
+    <div class="contact-form">
+      <div class="form-title">Commande ou question</div>
+      <div id="contactFormWrap">
+        <div class="form-row">
+          <div class="form-group"><label>Nom *</label><input type="text" id="fname" placeholder="Votre nom"/></div>
+          <div class="form-group"><label>Organisation *</label><input type="text" id="forg" placeholder="Votre organisation"/></div>
+        </div>
+        <div class="form-group"><label>Email *</label><input type="email" id="femail" placeholder="votre@email.com"/></div>
+        <div class="form-group">
+          <label>Outil souhaité</label>
+          <select id="ftype">
+            <option value="">Sélectionnez...</option>
+            <option>DocManager</option>
+            <option>BiblioManager</option>
+            <option>PMEManager</option>
+            <option>Plusieurs outils (pack)</option>
+            <option>Commander pour moi (sur mesure)</option>
+            <option>Personnaliser un outil existant</option>
+            <option>Question générale</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Message</label><textarea id="fmsg" placeholder="Décrivez votre besoin ou posez votre question…"></textarea></div>
+        <button class="form-submit" onclick="submitForm()"><i class="fa-solid fa-shopping-cart"></i> &nbsp;Envoyer ma commande</button>
+      </div>
+      <div class="form-success" id="formSuccess" style="display:none;">
+        <div class="fs-icon">✅</div>
+        <p>Merci pour votre commande !<br>Victorine Monné vous répondra dans les meilleurs délais avec les modalités de paiement.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 Libre Outils — Tous droits réservés · Paiement unique · Licence à vie</p>
+  <p>Une création de <a href="https://victorinemonne.com">Victorine Monné</a></p>
+</footer>
+
+<script>
+function toggleMenu(){
+  document.getElementById('menu').classList.toggle('ouvert');
+}
+
+function submitForm() {
+  const name  = document.getElementById('fname').value.trim();
+  const email = document.getElementById('femail').value.trim();
+  const org   = document.getElementById('forg').value.trim();
+  const type  = document.getElementById('ftype').value;
+  const msg   = document.getElementById('fmsg').value.trim();
+
+  if (!name || !email || !org) {
+    alert('Veuillez renseigner votre nom, votre organisation et votre email.');
+    return;
+  }
+
+  fetch('https://formspree.io/f/mjgpdeej', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify({ nom: name, email: email, organisation: org, outil: type, message: msg })
+  }).then(function(response) {
+    if (response.ok) {
+      document.getElementById('contactFormWrap').style.display = 'none';
+      document.getElementById('formSuccess').style.display = 'block';
+    } else {
+      alert('Une erreur est survenue. Veuillez réessayer.');
+    }
+  }).catch(function() {
+    document.getElementById('contactFormWrap').style.display = 'none';
+    document.getElementById('formSuccess').style.display = 'block';
+  });
+}
+</script>
+</body>
+</html>
