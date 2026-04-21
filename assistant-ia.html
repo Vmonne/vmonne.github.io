@@ -306,7 +306,7 @@
         <div class="sb-footer">
             <div class="model-tag">
                 <div class="dot"></div>
-                <span>Flan-T5 Small · 80 Mo · local</span>
+                <span>Flan-T5 Base · 250 Mo · local</span>
             </div>
             <a class="sb-link" href="#" onclick="openModal()">
                 <i class="fas fa-sliders"></i> Personnaliser l'assistant
@@ -381,11 +381,11 @@ let conversations = JSON.parse(localStorage.getItem('aia_convs') || '[]');
 // ── Load model ──
 env.allowLocalModels = false;
 
-// Models to try in order — text2text-generation pipeline (smallest first)
+// Models to try in order — text2text-generation pipeline
 const PIPELINE_TYPE = 'text2text-generation';
 const MODELS = [
-    'Xenova/flan-t5-small',   // ~80 Mo
-    'Xenova/flan-t5-base',    // ~250 Mo
+    'Xenova/flan-t5-base',    // ~250 Mo — bon pour la conversation
+    'Xenova/flan-t5-small',   // ~80 Mo  — fallback léger
 ];
 
 async function loadModel() {
@@ -606,18 +606,24 @@ async function send() {
     generating = true;
 
     try {
-        // Build a text2text prompt with recent conversation history
-        const recent = conv.messages.slice(-6); // last 6 messages for context
-        let prompt = systemPrompt + '\n\n';
+        // Format instruction pour Flan-T5 (pas de chat template, format question-réponse)
+        const recent = conv.messages.slice(-4);
+        let context = '';
         for (const m of recent) {
-            prompt += m.role === 'user'
-                ? `Human: ${m.content}\n`
-                : `Assistant: ${m.content}\n`;
+            context += m.role === 'user'
+                ? `Question: ${m.content}\n`
+                : `Answer: ${m.content}\n`;
         }
-        prompt += 'Assistant:';
+        const prompt = context
+            ? `${context}Question: ${text}\nAnswer:`
+            : `Answer helpfully: ${text}`;
 
         const out = await pipe(prompt, {
-            max_new_tokens: 250,
+            max_new_tokens:      200,
+            min_new_tokens:      10,
+            no_repeat_ngram_size: 3,
+            repetition_penalty:  2.5,
+            early_stopping:      true,
         });
 
         typing.remove();
