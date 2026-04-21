@@ -298,7 +298,7 @@
         <div class="sb-footer">
             <div class="model-tag">
                 <div class="dot"></div>
-                <span>TinyLlama 1.1B · 100% local</span>
+                <span>Flan-T5 Small · 80 Mo · local</span>
             </div>
             <a class="sb-link" href="#" onclick="openModal()">
                 <i class="fas fa-sliders"></i> Personnaliser l'assistant
@@ -373,10 +373,11 @@ let conversations = JSON.parse(localStorage.getItem('aia_convs') || '[]');
 // ── Load model ──
 env.allowLocalModels = false;
 
-// Models to try in order (smallest/fastest first)
+// Models to try in order — text2text-generation pipeline (smallest first)
+const PIPELINE_TYPE = 'text2text-generation';
 const MODELS = [
-    'Xenova/Qwen1.5-0.5B-Chat',
-    'Xenova/TinyLlama-1.1B-Chat-v1.0',
+    'Xenova/flan-t5-small',   // ~80 Mo
+    'Xenova/flan-t5-base',    // ~250 Mo
 ];
 
 async function loadModel() {
@@ -397,7 +398,7 @@ async function loadModel() {
                 }
             }, 45000);
 
-            pipe = await pipeline('text-generation', modelName, {
+            pipe = await pipeline(PIPELINE_TYPE, modelName, {
                 progress_callback(p) {
                     gotProgress = true;
                     clearTimeout(timeoutId);
@@ -597,31 +598,23 @@ async function send() {
     generating = true;
 
     try {
-        // Build prompt using TinyLlama chat template
-        const msgs = [
-            { role: 'system', content: systemPrompt },
-            ...conv.messages
-        ];
-
-        const prompt = pipe.tokenizer.apply_chat_template(msgs, {
-            tokenize: false,
-            add_generation_prompt: true,
-        });
+        // Build a text2text prompt with recent conversation history
+        const recent = conv.messages.slice(-6); // last 6 messages for context
+        let prompt = systemPrompt + '\n\n';
+        for (const m of recent) {
+            prompt += m.role === 'user'
+                ? `Human: ${m.content}\n`
+                : `Assistant: ${m.content}\n`;
+        }
+        prompt += 'Assistant:';
 
         const out = await pipe(prompt, {
-            max_new_tokens:    350,
-            temperature:       0.7,
-            do_sample:         true,
-            repetition_penalty: 1.15,
-            return_full_text:  false,
+            max_new_tokens: 250,
         });
 
         typing.remove();
 
-        // Clean the response (remove any trailing special tokens)
-        let response = out[0].generated_text
-            .replace(/<\|[^>]+\|>/g, '')
-            .trim();
+        let response = (out[0].generated_text || '').trim();
 
         if (!response) response = "Je n'ai pas pu générer de réponse. Reformulez votre question.";
 
