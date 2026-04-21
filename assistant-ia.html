@@ -373,38 +373,73 @@ let conversations = JSON.parse(localStorage.getItem('aia_convs') || '[]');
 // ── Load model ──
 env.allowLocalModels = false;
 
+// Models to try in order (smallest/fastest first)
+const MODELS = [
+    'Xenova/Qwen1.5-0.5B-Chat',
+    'Xenova/TinyLlama-1.1B-Chat-v1.0',
+];
+
 async function loadModel() {
     const fill   = document.getElementById('prog-fill');
     const status = document.getElementById('ld-status');
 
-    try {
-        status.textContent = 'Connexion aux serveurs Hugging Face…';
+    for (const modelName of MODELS) {
+        try {
+            status.textContent = `Connexion à Hugging Face… (${modelName})`;
+            fill.style.background = 'linear-gradient(90deg, var(--accent), var(--cyan))';
 
-        pipe = await pipeline('text-generation', 'Xenova/TinyLlama-1.1B-Chat-v1.0', {
-            progress_callback(p) {
-                if (p.status === 'downloading') {
-                    const pct = p.total ? Math.round((p.loaded / p.total) * 100) : 0;
-                    const mb  = Math.round((p.loaded  || 0) / 1024 / 1024);
-                    const tot = Math.round((p.total   || 0) / 1024 / 1024);
-                    fill.style.width = pct + '%';
-                    status.textContent = `Téléchargement : ${mb} Mo / ${tot} Mo (${pct}%)`;
-                } else if (p.status === 'loading') {
-                    fill.style.width = '95%';
-                    status.textContent = 'Chargement du modèle en mémoire…';
-                } else if (p.status === 'ready') {
-                    fill.style.width = '100%';
-                    status.textContent = 'Modèle prêt !';
+            let gotProgress = false;
+
+            // Timeout : si aucune progression après 45s, on passe au modèle suivant
+            const timeoutId = setTimeout(() => {
+                if (!gotProgress) {
+                    status.textContent = `⏱ Délai dépassé pour ${modelName}, tentative suivante…`;
                 }
-            }
-        });
+            }, 45000);
 
-        modelReady = true;
-        setTimeout(showApp, 500);
+            pipe = await pipeline('text-generation', modelName, {
+                progress_callback(p) {
+                    gotProgress = true;
+                    clearTimeout(timeoutId);
+                    if (p.status === 'initiate') {
+                        status.textContent = `Initialisation de ${modelName}…`;
+                        fill.style.width = '5%';
+                    } else if (p.status === 'download') {
+                        fill.style.width = '10%';
+                        status.textContent = `Préparation du téléchargement…`;
+                    } else if (p.status === 'downloading') {
+                        const pct = p.total ? Math.round((p.loaded / p.total) * 100) : 0;
+                        const mb  = Math.round((p.loaded  || 0) / 1024 / 1024);
+                        const tot = Math.round((p.total   || 0) / 1024 / 1024);
+                        fill.style.width = pct + '%';
+                        status.textContent = `Téléchargement : ${mb} Mo / ${tot} Mo (${pct}%)`;
+                    } else if (p.status === 'loading') {
+                        fill.style.width = '95%';
+                        status.textContent = 'Chargement du modèle en mémoire…';
+                    } else if (p.status === 'ready' || p.status === 'loaded') {
+                        fill.style.width = '100%';
+                        status.textContent = 'Modèle prêt !';
+                    }
+                }
+            });
 
-    } catch (err) {
-        status.textContent = '❌ Erreur : ' + err.message;
-        fill.style.background = '#ef4444';
+            clearTimeout(timeoutId);
+            modelReady = true;
+            setTimeout(showApp, 500);
+            return; // succès, on sort
+
+        } catch (err) {
+            console.warn(`Échec avec ${modelName}:`, err.message);
+            status.textContent = `Modèle ${modelName} indisponible, tentative suivante…`;
+            fill.style.width = '0%';
+            await new Promise(r => setTimeout(r, 1500));
+        }
     }
+
+    // Tous les modèles ont échoué
+    status.textContent = '❌ Impossible de charger le modèle. Vérifiez votre connexion et rechargez la page.';
+    document.getElementById('prog-fill').style.background = '#ef4444';
+    document.getElementById('prog-fill').style.width = '100%';
 }
 
 function showApp() {
