@@ -6,6 +6,14 @@
     <title>AssistantIA — Logiciel d'Apprentissage Automatique</title>
     <meta name="description" content="AssistantIA — Un logiciel d'apprentissage automatique conversationnel qui fonctionne entièrement dans votre navigateur, sans clé API.">
 
+    <!-- PWA -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#7c3aed">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="AssistantIA">
+    <link rel="apple-touch-icon" href="/icon-192.png">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -724,6 +732,11 @@ window.resize = (el) => {
 };
 
 // ── Start ──
+// Enregistrement du Service Worker (PWA)
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js').catch(() => {});
+}
+
 loadModel();
 </script>
 </body>
